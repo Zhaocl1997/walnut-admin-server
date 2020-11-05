@@ -5,7 +5,9 @@ import {
   MiddlewareConsumer,
 } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
+import configuration from './app/walnut/config/configuration';
 import { AppController } from './app.controller';
 import { LoggerMiddleware } from './app/walnut/middleware/logger';
 
@@ -21,15 +23,28 @@ import { UserModule } from './app/walnut/system/user/user.module';
  * can largely be delegated to the Nest runtime system.
  * A provider is simply a class annotated with an @Injectable() decorator.
  */
+
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost:27017/walnut-admin-nest', {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useFindAndModify: false,
-      useCreateIndex: true,
-      autoIndex: false,
+    ConfigModule.forRoot({
+      envFilePath: '.development.env',
+      load: [configuration],
+      isGlobal: true,
     }),
+
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        uri:
+          configService.get<string>('DATABASE_HOST') +
+          ':' +
+          configService.get<string>('DATABASE_PORT') +
+          '/' +
+          configService.get<string>('DATABASE_NAME'),
+      }),
+      inject: [ConfigService],
+    }),
+
     UserModule,
   ],
   controllers: [AppController],
@@ -37,8 +52,6 @@ import { UserModule } from './app/walnut/system/user/user.module';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(LoggerMiddleware)
-      .forRoutes({ path: 'user', method: RequestMethod.POST });
+    consumer.apply(LoggerMiddleware).forRoutes();
   }
 }

@@ -388,4 +388,7 @@ Temporary Items
 =======
 # Local
 .env
+.development.env
+.prod.env
+.test.env
 dist

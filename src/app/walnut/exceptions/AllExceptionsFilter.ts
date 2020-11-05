@@ -6,7 +6,7 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 
-import { Error as DatabaseException } from 'mongoose';
+import { Error as DatabaseException, CastError } from 'mongoose';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
@@ -20,17 +20,26 @@ export class AllExceptionsFilter implements ExceptionFilter {
         ? exception.getStatus()
         : HttpStatus.INTERNAL_SERVER_ERROR;
 
-    const message =
-      exception instanceof HttpException
-        ? exception.getResponse()
-        : exception instanceof DatabaseException
-        ? exception.message
-        : 'Unknown Error';
+    let message;
+
+    if (exception instanceof HttpException) {
+      message = exception.getResponse();
+    }
+
+    if (exception instanceof DatabaseException) {
+      message = exception.message;
+
+      if (exception as CastError) {
+        message = exception.message;
+      }
+    }
 
     response.status(status).json({
       statusCode: status,
-      timestamp: new Date().toISOString(),
       path: request.url,
+      method: request.method,
+      timestamp: new Date().toISOString(),
+
       message: message,
     });
   }

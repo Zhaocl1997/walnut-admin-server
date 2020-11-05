@@ -7,6 +7,6 @@ import { Controller, Get } from '@nestjs/common';
 export class AppController {
   @Get()
   root(): string {
-    return 'Hello World!';
+    return '<h1>Hello World!</h1>';
   }
 }

@@ -1,5 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { ConfigService } from '@nestjs/config';
 
 import { AppModule } from './app.module';
 import { AllExceptionsFilter } from './app/walnut/exceptions/AllExceptionsFilter';
@@ -7,9 +9,35 @@ import { LoggingInterceptor } from './app/walnut/interceptors/LoggingInterceptor
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  const configService = app.get(ConfigService);
+  const port = configService.get('SERVER_PORT');
+  const APIPrefix = configService.get('API_PREFIX');
+  const env = configService.get('NODE_ENV');
+
+  /* api前缀 */
+  app.setGlobalPrefix(APIPrefix);
+
+  /* 错误捕获 */
   app.useGlobalFilters(new AllExceptionsFilter());
+
+  /* 拦截器 */
   app.useGlobalInterceptors(new LoggingInterceptor());
   app.useGlobalPipes(new ValidationPipe());
-  await app.listen(3000);
+
+  /* API文档 */
+  const options = new DocumentBuilder()
+    .setTitle('NestJS Walnut Admin App')
+    .setDescription('Document of API details')
+    .setVersion('1.0')
+    .build();
+  const document = SwaggerModule.createDocument(app, options);
+  SwaggerModule.setup('api/docs', app, document);
+
+  /* 启动app  */
+  await app.listen(port);
+
+  console.log(`APP is running in ${env} mode at port ${port}`);
 }
+
 bootstrap();
