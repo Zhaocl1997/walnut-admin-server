@@ -1,12 +1,8 @@
-import {
-  Module,
-  NestModule,
-  RequestMethod,
-  MiddlewareConsumer,
-} from '@nestjs/common';
+import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 
+import { MongooseConfigService } from './app/walnut/database/mongoose';
 import configuration from './app/walnut/config/configuration';
 import { AppController } from './app.controller';
 import { LoggerMiddleware } from './app/walnut/middleware/logger';
@@ -33,16 +29,7 @@ import { UserModule } from './app/walnut/system/user/user.module';
     }),
 
     MongooseModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        uri:
-          configService.get<string>('DATABASE_HOST') +
-          ':' +
-          configService.get<string>('DATABASE_PORT') +
-          '/' +
-          configService.get<string>('DATABASE_NAME'),
-      }),
-      inject: [ConfigService],
+      useClass: MongooseConfigService,
     }),
 
     UserModule,

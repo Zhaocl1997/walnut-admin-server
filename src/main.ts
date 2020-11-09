@@ -11,8 +11,9 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const configService = app.get(ConfigService);
-  const port = configService.get('SERVER_PORT');
-  const APIPrefix = configService.get('API_PREFIX');
+  const APIPrefix = configService.get('server.APIPrefix');
+
+  const port = configService.get('server.port');
   const env = configService.get('NODE_ENV');
 
   /* api前缀 */
@@ -32,11 +33,10 @@ async function bootstrap() {
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, options);
-  SwaggerModule.setup('api/docs', app, document);
+  SwaggerModule.setup('api', app, document);
 
   /* 启动app  */
   await app.listen(port);
-
   console.log(`APP is running in ${env} mode at port ${port}`);
 }
 

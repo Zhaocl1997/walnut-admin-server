@@ -3,12 +3,12 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
 import { UserInterface } from './user.interface';
-import { User } from './user.schema';
+import { User, UserDocument } from './user.schema';
 import { CreateUserDto, ReadUserDto, UpdateUserDto } from './dto';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User.name) private userModel: Model<User>) {}
+  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
   async read(dto: ReadUserDto): Promise<UserInterface> {
     return await this.userModel.findById(dto.id);
@@ -17,7 +17,7 @@ export class UserService {
     return await this.userModel.deleteOne({ _id: id });
   }
 
-  async create(dto: CreateUserDto) {
+  async create(dto: CreateUserDto): Promise<User> {
     const createdUser = await this.userModel.create(dto);
     return createdUser.save();
   }
@@ -33,6 +33,6 @@ export class UserService {
   }
 
   async findAll(): Promise<UserInterface[]> {
-    return await this.userModel.find();
+    return await this.userModel.find().exec()
   }
 }
