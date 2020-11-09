@@ -3,9 +3,9 @@ import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
 
-import { AppModule } from './app.module';
-import { AllExceptionsFilter } from './app/walnut/exceptions/AllExceptionsFilter';
-import { LoggingInterceptor } from './app/walnut/interceptors/LoggingInterceptor';
+import { AppModule } from './walnut/app/app.module';
+import { AllExceptionsFilter } from './walnut/app/exceptions/AllExceptionsFilter';
+import { LoggingInterceptor } from './walnut/app/interceptors/LoggingInterceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

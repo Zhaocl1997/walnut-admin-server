@@ -2,12 +2,11 @@ import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 
-import { MongooseConfigService } from './app/walnut/database/mongoose';
-import configuration from './app/walnut/config/configuration';
-import { AppController } from './app.controller';
-import { LoggerMiddleware } from './app/walnut/middleware/logger';
+import { MongooseConfigService } from '../config/database';
+import configuration from '../config/configuration';
+import { LoggerMiddleware } from './middleware/logger';
 
-import { UserModule } from './app/walnut/system/user/user.module';
+import { UserModule } from './system/user/user.module';
 
 /**
  * Providers are a fundamental concept in Nest.
@@ -34,7 +33,7 @@ import { UserModule } from './app/walnut/system/user/user.module';
 
     UserModule,
   ],
-  controllers: [AppController],
+  controllers: [],
   providers: [],
 })
 export class AppModule implements NestModule {
