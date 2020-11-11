@@ -13,6 +13,7 @@ import { ConfigService } from '@nestjs/config';
 import { UserService } from './user.service';
 import { UserInterface } from './user.interface';
 import { CreateUserDto, ReadUserDto, UpdateUserDto } from './dto';
+import { User } from './user.schema';
 
 /*
  * Controllers are responsible for handling incoming requests and returning responses to the client.
@@ -22,24 +23,24 @@ import { CreateUserDto, ReadUserDto, UpdateUserDto } from './dto';
 //   name: 'myHeader',
 //   description: 'Custom header',
 // })
-@Controller('system')
+@Controller('system/user')
 export class UserController {
   constructor(
     private userService: UserService,
     private configService: ConfigService,
   ) {}
 
-  @Get('user/:id')
+  @Get(':id')
   async read(@Param() params: ReadUserDto) {
     return this.userService.read(params);
   }
 
-  @Delete('user/:id')
+  @Delete(':id')
   async delete(@Param() params) {
     return this.userService.delete(params.id);
   }
 
-  @Post('user')
+  @Post()
   // @ApiResponse({
   //   status: 201,
   //   description: 'The user has been successfully created.',
@@ -48,15 +49,14 @@ export class UserController {
     return this.userService.create(userData);
   }
 
-  @Put('user')
+  @Put()
   async update(@Body() userData: UpdateUserDto) {
     return this.userService.update(userData);
   }
 
-  @Post('user/list')
-  async findAll(): Promise<UserInterface[]> {
-    // console.log(this.configService.get<number>('port'));
-
+  @Post('list')
+  async findAll(): Promise<User[]> {
+    // console.log(this.configService.get<number>('db.port'));
     return this.userService.findAll();
   }
 }

@@ -4,6 +4,8 @@ import {
   ArgumentsHost,
   HttpException,
   HttpStatus,
+  UnauthorizedException,
+  BadRequestException,
 } from '@nestjs/common';
 
 import { Error as DatabaseException, CastError } from 'mongoose';
@@ -26,6 +28,14 @@ export class AllExceptionsFilter implements ExceptionFilter {
       message = exception.getResponse();
     }
 
+    if (exception instanceof BadRequestException) {
+      message = exception.getResponse();
+    }
+
+    if (exception instanceof UnauthorizedException) {
+      message = exception.getResponse();
+    }
+
     if (exception instanceof DatabaseException) {
       message = exception.message;
 
@@ -38,8 +48,13 @@ export class AllExceptionsFilter implements ExceptionFilter {
       statusCode: status,
       path: request.url,
       method: request.method,
-      timestamp: new Date().toISOString(),
+      params: {
+        body: request.body,
+        params: request.params,
+        query: request.query,
+      },
 
+      time: new Date().toLocaleString(),
       message: message,
     });
   }

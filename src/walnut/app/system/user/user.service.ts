@@ -10,11 +10,22 @@ import { CreateUserDto, ReadUserDto, UpdateUserDto } from './dto';
 export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
-  async read(dto: ReadUserDto): Promise<UserInterface> {
+  async findOne(username: string): Promise<User> {
+    return this.userModel.findOne({ username: username });
+  }
+
+  async read(dto: ReadUserDto): Promise<User> {
     return await this.userModel.findById(dto.id);
   }
-  async delete(id: string) {
-    return await this.userModel.deleteOne({ _id: id });
+
+  async delete(id: string): Promise<User> {
+    const deletedUser = await this.userModel.findById({ _id: id });
+    if (!deletedUser) {
+      throw new Error("User doesn't exist.");
+    } else {
+      await deletedUser.remove();
+      return deletedUser;
+    }
   }
 
   async create(dto: CreateUserDto): Promise<User> {
@@ -32,7 +43,7 @@ export class UserService {
     return await oldUser.updateOne(dto);
   }
 
-  async findAll(): Promise<UserInterface[]> {
-    return await this.userModel.find().exec()
+  async findAll(): Promise<User[]> {
+    return await this.userModel.find().exec();
   }
 }

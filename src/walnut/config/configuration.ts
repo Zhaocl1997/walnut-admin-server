@@ -13,4 +13,9 @@ export default () => ({
     user: process.env.DATABASE_USER,
     pass: process.env.DATABASE_PASS,
   },
+
+  jwt: {
+    serct: process.env.JWT_SERECT,
+    expire: parseInt(process.env.JWT_EXPIRE),
+  },
 });

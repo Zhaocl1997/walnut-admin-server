@@ -8,14 +8,17 @@ export type UserDocument = User & Document;
   timestamps: true,
 })
 export class User extends Document {
-  @Prop({ required: true })
-  name: string;
+  @Prop()
+  username: string;
 
   @Prop()
   age: number;
 
   @Prop()
   sex: string;
+
+  @Prop()
+  password: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

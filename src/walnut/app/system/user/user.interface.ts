@@ -1,5 +1,7 @@
 export class UserInterface {
-  name: string;
+  id: string;
+  username: string;
   age: number;
   sex: string;
+  password: string;
 }
