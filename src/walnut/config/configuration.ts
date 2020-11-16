@@ -16,7 +16,7 @@ export default () => ({
   },
 
   jwt: {
-    serct: process.env.JWT_SERECT,
-    expire: parseInt(process.env.JWT_EXPIRE),
+    serect: process.env.JWT_SERECT,
+    expire: process.env.JWT_EXPIRE,
   },
 });

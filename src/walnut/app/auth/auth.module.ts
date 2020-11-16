@@ -9,14 +9,14 @@ import { LocalStrategy } from './strategies/local.strategy';
 import { JwtStrategy } from './strategies/jwt.strategy';
 
 import { AuthController } from './auth.controller';
+import { JwtConfigService } from './configs/jwt.config';
 
 @Module({
   imports: [
     PassportModule.register({ defaultStrategy: 'jwt', session: true }),
 
-    JwtModule.register({
-      secret: 'asdasd',
-      signOptions: { expiresIn: '300s' },
+    JwtModule.registerAsync({
+      useClass: JwtConfigService,
     }),
 
     UserModule,
