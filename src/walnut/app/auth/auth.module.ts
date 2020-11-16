@@ -8,17 +8,20 @@ import { UserModule } from '../system/user/user.module';
 import { LocalStrategy } from './strategies/local.strategy';
 import { JwtStrategy } from './strategies/jwt.strategy';
 
+import { AuthController } from './auth.controller';
+
 @Module({
   imports: [
     PassportModule.register({ defaultStrategy: 'jwt', session: true }),
 
     JwtModule.register({
       secret: 'asdasd',
-      signOptions: { expiresIn: '3s' },
+      signOptions: { expiresIn: '300s' },
     }),
 
     UserModule,
   ],
+  controllers: [AuthController],
   providers: [AuthService, LocalStrategy, JwtStrategy],
   exports: [AuthService],
 })

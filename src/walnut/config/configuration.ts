@@ -1,6 +1,7 @@
 export default () => ({
   server: {
     APIPrefix: process.env.SERVER_API_PREFIX,
+    APIVersion: process.env.SERVER_API_VERSION,
     port: parseInt(process.env.SERVER_PORT),
   },
 

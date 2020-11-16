@@ -2,8 +2,7 @@ import { Model, Error } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
-import { UserInterface } from './user.interface';
-import { User, UserDocument } from './user.schema';
+import { User, UserDocument } from './schema/user.schema';
 import { CreateUserDto, ReadUserDto, UpdateUserDto } from './dto';
 
 @Injectable()
@@ -28,7 +27,7 @@ export class UserService {
     }
   }
 
-  async create(dto: CreateUserDto): Promise<User> {
+  async create(dto: UserDocument): Promise<User> {
     const createdUser = await this.userModel.create(dto);
     return createdUser.save();
   }
@@ -44,6 +43,6 @@ export class UserService {
   }
 
   async findAll(): Promise<User[]> {
-    return await this.userModel.find().exec();
+    return await this.userModel.find().populate('role').lean();
   }
 }

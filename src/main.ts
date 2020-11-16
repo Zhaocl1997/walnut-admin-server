@@ -12,12 +12,13 @@ async function bootstrap() {
 
   const configService = app.get(ConfigService);
   const APIPrefix = configService.get('server.APIPrefix');
+  const APIVersion = configService.get('server.APIVersion');
 
   const port = configService.get('server.port');
   const env = configService.get('NODE_ENV');
 
   /* api前缀 */
-  app.setGlobalPrefix(APIPrefix);
+  app.setGlobalPrefix(`${APIPrefix}/${APIVersion}`);
 
   /* 错误捕获 */
   app.useGlobalFilters(new AllExceptionsFilter());

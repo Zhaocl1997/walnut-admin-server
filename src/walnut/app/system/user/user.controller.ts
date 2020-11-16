@@ -6,28 +6,24 @@ import {
   Put,
   Param,
   Body,
+  UseGuards,
 } from '@nestjs/common';
-import { ApiTags, ApiHeader, ApiResponse } from '@nestjs/swagger';
-import { ConfigService } from '@nestjs/config';
+import { ApiTags } from '@nestjs/swagger';
 
 import { UserService } from './user.service';
-import { UserInterface } from './user.interface';
 import { CreateUserDto, ReadUserDto, UpdateUserDto } from './dto';
-import { User } from './user.schema';
+import { User, UserDocument } from './schema/user.schema';
 
-/*
- * Controllers are responsible for handling incoming requests and returning responses to the client.
- */
+import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
+import { RoleService } from '../role/role.service';
+
 @ApiTags('system/user')
-// @ApiHeader({
-//   name: 'myHeader',
-//   description: 'Custom header',
-// })
 @Controller('system/user')
+@UseGuards(JwtAuthGuard)
 export class UserController {
   constructor(
     private userService: UserService,
-    private configService: ConfigService,
+    private roleService: RoleService,
   ) {}
 
   @Get(':id')
@@ -41,12 +37,10 @@ export class UserController {
   }
 
   @Post()
-  // @ApiResponse({
-  //   status: 201,
-  //   description: 'The user has been successfully created.',
-  // })
-  async create(@Body() userData: CreateUserDto) {
-    return this.userService.create(userData);
+  async create(@Body() userData: any) {
+    const defaultRole = await this.roleService.findOne('user');
+    const newUser = { ...userData, role: defaultRole._id };
+    return this.userService.create(newUser);
   }
 
   @Put()
@@ -56,7 +50,6 @@ export class UserController {
 
   @Post('list')
   async findAll(): Promise<User[]> {
-    // console.log(this.configService.get<number>('db.port'));
     return this.userService.findAll();
   }
 }
