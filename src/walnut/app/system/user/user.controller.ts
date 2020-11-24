@@ -7,24 +7,23 @@ import {
   Param,
   Body,
   UseGuards,
+  ClassSerializerInterceptor,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
 import { UserService } from './user.service';
 import { CreateUserDto, ReadUserDto, UpdateUserDto } from './dto';
 import { User, UserDocument } from './schema/user.schema';
+import { UserEntity } from './entities/user.entity';
 
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
-import { RoleService } from '../role/role.service';
 
 @ApiTags('system/user')
 @Controller('system/user')
 @UseGuards(JwtAuthGuard)
 export class UserController {
-  constructor(
-    private userService: UserService,
-    private roleService: RoleService,
-  ) {}
+  constructor(private userService: UserService) {}
 
   @Get(':id')
   async read(@Param() params: ReadUserDto) {
@@ -36,20 +35,19 @@ export class UserController {
     return this.userService.delete(params.id);
   }
 
+  /* @UseInterceptors(ClassSerializerInterceptor) */
   @Post()
-  async create(@Body() userData: any) {
-    const defaultRole = await this.roleService.findOne('user');
-    const newUser = { ...userData, role: defaultRole._id };
-    return this.userService.create(newUser);
+  async create(@Body() userData: any): Promise<UserEntity> {
+    return new UserEntity({ ...(await this.userService.create(userData)) });
   }
 
   @Put()
   async update(@Body() userData: UpdateUserDto) {
-    return this.userService.update(userData);
+    return await this.userService.update(userData);
   }
 
   @Post('list')
   async findAll(): Promise<User[]> {
-    return this.userService.findAll();
+    return await this.userService.findAll();
   }
 }

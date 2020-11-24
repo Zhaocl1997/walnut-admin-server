@@ -5,9 +5,14 @@ import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from './schema/user.schema';
 import { CreateUserDto, ReadUserDto, UpdateUserDto } from './dto';
 
+import { RoleService } from '../role/role.service';
+
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
+  constructor(
+    @InjectModel(User.name) private userModel: Model<UserDocument>,
+    private roleService: RoleService,
+  ) {}
 
   async findOne(username: string): Promise<User> {
     return this.userModel.findOne({ username: username });
@@ -28,8 +33,14 @@ export class UserService {
   }
 
   async create(dto: UserDocument): Promise<User> {
-    const createdUser = await this.userModel.create(dto);
-    return createdUser.save();
+    const defaultRole = await this.roleService.findOne('user');
+
+    const createdUser = await this.userModel.create({
+      ...dto,
+      role: defaultRole._id,
+    });
+
+    return createdUser;
   }
 
   async update(dto: UpdateUserDto) {

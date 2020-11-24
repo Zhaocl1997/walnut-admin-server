@@ -17,6 +17,8 @@ export class AllExceptionsFilter implements ExceptionFilter {
     const response = ctx.getResponse();
     const request = ctx.getRequest();
 
+    console.log(exception);
+
     const status =
       exception instanceof HttpException
         ? exception.getStatus()
@@ -48,14 +50,9 @@ export class AllExceptionsFilter implements ExceptionFilter {
       statusCode: status,
       path: request.url,
       method: request.method,
-      params: {
-        body: request.body,
-        params: request.params,
-        query: request.query,
-      },
 
       time: new Date().toLocaleString(),
-      message: message,
+      detail: message,
     });
   }
 }

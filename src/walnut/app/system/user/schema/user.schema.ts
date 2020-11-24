@@ -1,6 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
 
+import * as bcrypt from 'bcrypt';
+
 export type UserDocument = User & Document;
 
 @Schema({
@@ -14,7 +16,9 @@ export class User extends Document {
   @Prop()
   nickName: string;
 
-  @Prop()
+  @Prop({
+    default: 0,
+  })
   age: number;
 
   @Prop()
@@ -24,9 +28,14 @@ export class User extends Document {
   password: string;
 
   @Prop()
-  avatar: string;
+  salt: string;
 
   @Prop()
+  avatar: string;
+
+  @Prop({
+    default: true,
+  })
   status: boolean;
 
   @Prop({
@@ -37,3 +46,13 @@ export class User extends Document {
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
+
+UserSchema.pre('save', async function (next) {
+  const user = this as User;
+  if (user.isModified('password')) {
+    const salt = await bcrypt.genSalt();
+    user.salt = salt;
+    user.password = await bcrypt.hash(user.password, salt);
+  }
+  next();
+});

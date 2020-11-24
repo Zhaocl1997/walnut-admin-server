@@ -12,8 +12,8 @@ export class AuthController {
 
   @UseGuards(LocalAuthGuard)
   @Post('signin')
-  async signin(@Request() req) {
-    return this.authService.signin(req.user);
+  async signin(@Request() req) {    
+    return this.authService.signin(req.user._doc);
   }
 
   @UseGuards(JwtAuthGuard)
