@@ -9,7 +9,11 @@ export class RoleService {
   constructor(@InjectModel(Role.name) private roleModel: Model<RoleDocument>) {}
 
   async findOne(roleName: string): Promise<Role> {
-    return this.roleModel.findOne({ permissionString: roleName });
+    return this.roleModel.findOne({ rolename: roleName });
+  }
+
+  async findById(id: string): Promise<Role> {
+    return this.roleModel.findById(id);
   }
 
   async read(dto: any): Promise<Role> {

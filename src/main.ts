@@ -32,11 +32,12 @@ async function bootstrap() {
     .setTitle('NestJS Walnut Admin App')
     .setDescription('Document of API details')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api', app, document);
 
-  /* 启动app  */
+  /* 启动app */
   await app.listen(port);
   console.log(`APP is running in ${env} mode at port ${port}`);
 }

@@ -9,15 +9,14 @@ export type RoleDocument = Role & Document;
 })
 export class Role extends Document {
   @Prop()
-  name: string;
+  rolename: string;
 
   @Prop()
   description: string;
 
-  @Prop()
-  permissionString: string;
-
-  @Prop()
+  @Prop({
+    default: true,
+  })
   status: boolean;
 }
 

@@ -9,6 +9,7 @@ import {
   UseGuards,
   ClassSerializerInterceptor,
   UseInterceptors,
+  SetMetadata,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
@@ -18,6 +19,7 @@ import { User, UserDocument } from './schema/user.schema';
 import { UserEntity } from './entities/user.entity';
 
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
+import { hasRole } from '../../decorators/auth.decorator';
 
 @ApiTags('system/user')
 @Controller('system/user')
@@ -47,6 +49,7 @@ export class UserController {
   }
 
   @Post('list')
+  @hasRole('admin')
   async findAll(): Promise<User[]> {
     return await this.userService.findAll();
   }
