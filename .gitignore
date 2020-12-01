@@ -393,3 +393,4 @@ Temporary Items
 .prod.env
 .test.env
 dist
+package-lock.json
