@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Param, Res } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
@@ -8,5 +8,10 @@ export class AppController {
   @Get()
   hello() {
     return this.appService.getHello();
+  }
+
+  @Get(':photoName')
+  servePhoto(@Param('photoName') photo, @Res() res) {   
+    res.sendFile(photo, { root: 'assets' });
   }
 }

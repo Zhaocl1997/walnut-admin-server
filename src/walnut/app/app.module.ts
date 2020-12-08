@@ -19,6 +19,7 @@ import { LoggerMiddleware } from './middleware/logger';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './system/user/user.module';
 import { RoleModule } from './system/role/role.module';
+import { MenuModule } from './system/menu/menu.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { RoleModule } from './system/role/role.module';
     AuthModule,
     UserModule,
     RoleModule,
+    MenuModule,
   ],
 
   controllers: [AppController],
