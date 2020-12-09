@@ -19,7 +19,9 @@ import { User, UserDocument } from './schema/user.schema';
 import { UserEntity } from './entities/user.entity';
 
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
-import { hasRole } from '../../decorators/auth.decorator';
+import { hasRole } from '../../decorators/hasRole.decorator';
+
+import { Log } from '../../decorators/logger.decorator';
 
 @ApiTags('system/user')
 @Controller('system/user')
@@ -50,6 +52,7 @@ export class UserController {
 
   @Post('list')
   @hasRole('admin')
+  @Log({ title: 'test' })
   async findAll(): Promise<User[]> {
     return await this.userService.findAll();
   }

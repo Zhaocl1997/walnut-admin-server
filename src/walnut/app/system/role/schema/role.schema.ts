@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Schema as MongooseSchema } from 'mongoose';
 
 export type RoleDocument = Role & Document;
 
@@ -14,10 +14,17 @@ export class Role extends Document {
   @Prop()
   description: string;
 
-  @Prop({
-    default: true,
-  })
+  @Prop()
+  order: number;
+
+  @Prop()
+  menus: Array<MongooseSchema.Types.ObjectId>;
+
+  @Prop({ default: true })
   status: boolean;
+
+  @Prop({ default: false })
+  deleted: boolean;
 }
 
 export const RoleSchema = SchemaFactory.createForClass(Role);

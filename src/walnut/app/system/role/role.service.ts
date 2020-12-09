@@ -32,7 +32,7 @@ export class RoleService {
 
   async create(dto: Role): Promise<Role> {
     const createdRole = await this.roleModel.create(dto);
-    return createdRole.save();
+    return await createdRole.save();
   }
 
   async update(dto: any) {

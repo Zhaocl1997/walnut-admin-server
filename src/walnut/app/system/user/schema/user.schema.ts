@@ -33,10 +33,11 @@ export class User extends Document {
   @Prop()
   avatar: string;
 
-  @Prop({
-    default: true,
-  })
+  @Prop({ default: true })
   status: boolean;
+
+  @Prop({ default: false })
+  deleted: boolean;
 
   @Prop({
     required: true,
