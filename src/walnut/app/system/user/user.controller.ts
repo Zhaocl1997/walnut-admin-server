@@ -22,6 +22,7 @@ import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { hasRole } from '../../decorators/hasRole.decorator';
 
 import { Log } from '../../decorators/logger.decorator';
+import { ActionType } from '../../decorators/actionType';
 
 @ApiTags('system/user')
 @Controller('system/user')
@@ -30,6 +31,7 @@ export class UserController {
   constructor(private userService: UserService) {}
 
   @Get(':id')
+  @Log({ title: '查询用户', action: ActionType.READ })
   async read(@Param() params: ReadUserDto) {
     return this.userService.read(params);
   }
@@ -52,7 +54,7 @@ export class UserController {
 
   @Post('list')
   @hasRole('admin')
-  @Log({ title: 'test' })
+  @Log({ title: '查询所有用户', action: ActionType.LIST })
   async findAll(): Promise<User[]> {
     return await this.userService.findAll();
   }

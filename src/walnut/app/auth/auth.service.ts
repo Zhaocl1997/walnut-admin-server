@@ -4,11 +4,13 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 
 import { UserService } from '../system/user/user.service';
+import { MenuService } from '../system/menu/menu.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UserService,
+    private menuService: MenuService,
     private jwtService: JwtService,
   ) {}
 
@@ -38,5 +40,10 @@ export class AuthService {
     return {
       token: this.jwtService.sign(sign),
     };
+  }
+
+  async getPermissionMenus() {
+    const allMenus = await this.menuService.findAll();
+    return allMenus.data
   }
 }

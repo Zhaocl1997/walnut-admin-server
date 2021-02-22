@@ -23,7 +23,7 @@ export class MenuService {
   async update(dto: Menu) {
     const oldMenu = await this.menuModel.findOneAndUpdate(
       {
-        _id: dto.id,
+        _id: dto._id,
         deleted: false,
       },
       dto,
@@ -52,7 +52,16 @@ export class MenuService {
     return deletedMenu;
   }
 
-  async findAll(): Promise<Menu[]> {
-    return await this.menuModel.find({ deleted: false });
+  async findAll(): Promise<any> {
+    const data = await this.menuModel.find({ deleted: false });
+
+    const total = await this.menuModel
+      .find({ deleted: false })
+      .countDocuments();
+
+    return {
+      data,
+      total,
+    };
   }
 }

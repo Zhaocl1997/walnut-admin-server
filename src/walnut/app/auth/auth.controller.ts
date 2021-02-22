@@ -21,4 +21,10 @@ export class AuthController {
   getProfile(@Request() req) {
     return req.user;
   }
+
+  // @UseGuards(JwtAuthGuard)
+  @Get('permissionMenus')
+  async getPermissionMenus() {
+    return await this.authService.getPermissionMenus();
+  }
 }

@@ -120,7 +120,6 @@ artifacts/
 *.tlh
 *.tmp
 *.tmp_proj
-*.log
 *.vspscc
 *.vssscc
 .builds
@@ -394,3 +393,4 @@ Temporary Items
 .test.env
 dist
 package-lock.json
+assets

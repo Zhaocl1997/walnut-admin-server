@@ -14,6 +14,7 @@ enum MenuTypeEnum {
   timestamps: true,
 })
 export class Menu extends Document {
+  /* 父ID */
   @Prop()
   pid: MongooseSchema.Types.ObjectId;
 
@@ -36,12 +37,15 @@ export class Menu extends Document {
   @Prop({ unique: true })
   component: string;
 
+  /* 菜单/目录名称 */
   @Prop({ unique: true })
   title: string;
 
+  /* 图标 */
   @Prop()
   icon: string;
 
+  /* 顺序 */
   @Prop()
   order: number;
 
@@ -65,9 +69,11 @@ export class Menu extends Document {
   @Prop({ default: false })
   cache: boolean;
 
+  /* 状态 */
   @Prop({ default: true })
   status: boolean;
 
+  /* 删除标识 */
   @Prop({ default: false })
   deleted: boolean;
 }

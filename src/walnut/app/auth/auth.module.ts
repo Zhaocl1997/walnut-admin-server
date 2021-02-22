@@ -10,6 +10,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 
 import { AuthController } from './auth.controller';
 import { JwtConfigService } from './configs/jwt.config';
+import { MenuModule } from '../system/menu/menu.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { JwtConfigService } from './configs/jwt.config';
     }),
 
     UserModule,
+    MenuModule
   ],
   controllers: [AuthController],
   providers: [AuthService, LocalStrategy, JwtStrategy],

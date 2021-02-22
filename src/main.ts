@@ -9,7 +9,7 @@ import { AllExceptionsFilter } from './walnut/app/exceptions/AllExceptionsFilter
 import { LoggingInterceptor } from './walnut/app/interceptors/LoggingInterceptor';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { cors: true });
 
   app.connectMicroservice({
     transport: Transport.TCP,

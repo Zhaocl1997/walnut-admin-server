@@ -20,6 +20,7 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './system/user/user.module';
 import { RoleModule } from './system/role/role.module';
 import { MenuModule } from './system/menu/menu.module';
+import { LogModule } from './system/logs/log.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { MenuModule } from './system/menu/menu.module';
     UserModule,
     RoleModule,
     MenuModule,
+    LogModule
   ],
 
   controllers: [AppController],

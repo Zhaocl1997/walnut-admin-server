@@ -33,7 +33,7 @@ export class MenuController {
   }
 
   @Put()
-  async update(@Body() menuData: any) {
+  async update(@Body() menuData: any) {   
     return await this.menuService.update(menuData);
   }
 
@@ -43,7 +43,7 @@ export class MenuController {
   }
 
   @Post('list')
-  async findAll(): Promise<Menu[]> {
+  async findAll(@Body() listParams: any): Promise<Menu[]> {       
     return await this.menuService.findAll();
   }
 }
