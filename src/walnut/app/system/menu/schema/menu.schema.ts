@@ -80,9 +80,8 @@ export class Menu extends Document {
 
 export const MenuSchema = SchemaFactory.createForClass(Menu);
 
-MenuSchema.pre('findOneAndUpdate', async function (next) {
+MenuSchema.pre('findOneAndUpdate', async function () {
   console.log('[menu pre findOneAndUpdate]');
-  next();
 });
 
 MenuSchema.pre('save', async function (next) {
