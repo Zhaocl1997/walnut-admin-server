@@ -22,7 +22,7 @@ export class AuthController {
     return req.user;
   }
 
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @Get('permissionMenus')
   async getPermissionMenus() {
     return await this.authService.getPermissionMenus();
