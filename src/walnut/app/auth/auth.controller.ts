@@ -4,11 +4,12 @@ import { ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { MenuService } from '../system/menu/menu.service';
 
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private menuServie: MenuService) { }
 
   @UseGuards(LocalAuthGuard)
   @Post('signin')
@@ -26,5 +27,12 @@ export class AuthController {
   @Get('permissionMenus')
   async getPermissionMenus() {
     return await this.authService.getPermissionMenus();
+  }
+
+  @Get('icons')
+  async getIcons() {
+    console.log(1);
+    
+    return await this.menuServie.getIcons();
   }
 }

@@ -6,7 +6,7 @@ import { Menu } from './schema/menu.schema';
 
 @Injectable()
 export class MenuService {
-  constructor(@InjectModel(Menu.name) private menuModel: Model<Menu>) {}
+  constructor(@InjectModel(Menu.name) private menuModel: Model<Menu>) { }
 
   async findById(id: Schema.Types.ObjectId): Promise<Menu> {
     return await this.menuModel.findById(id);
@@ -63,5 +63,15 @@ export class MenuService {
       data,
       total,
     };
+  }
+
+  async getIcons(): Promise<any> {
+    const icon = await this.menuModel.find({ deleted: false })
+    const ret = icon.map(item => item.icon).filter(i => i)
+
+    return {
+      data: ret,
+      total: ret.length
+    }
   }
 }
