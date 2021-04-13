@@ -67,7 +67,7 @@ export class MenuService {
 
   async getIcons(): Promise<any> {
     const icon = await this.menuModel.find({ deleted: false })
-    const ret = icon.map(item => item.icon).filter(i => i)
+    const ret = [...new Set(icon.map(item => item.icon).filter(i => i))]
 
     return {
       data: ret,

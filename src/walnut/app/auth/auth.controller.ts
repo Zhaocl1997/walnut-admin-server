@@ -30,9 +30,7 @@ export class AuthController {
   }
 
   @Get('icons')
-  async getIcons() {
-    console.log(1);
-    
+  async getIcons() {    
     return await this.menuServie.getIcons();
   }
 }
