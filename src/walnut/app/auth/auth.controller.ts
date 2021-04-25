@@ -5,11 +5,15 @@ import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { MenuService } from '../system/menu/menu.service';
+import { ResponseSuccess } from '../shared/response';
 
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService, private menuServie: MenuService) { }
+  constructor(
+    private authService: AuthService,
+    private menuServie: MenuService,
+  ) {}
 
   @UseGuards(LocalAuthGuard)
   @Post('signin')
@@ -20,7 +24,7 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @Get('profile')
   getProfile(@Request() req) {
-    return req.user;
+    return ResponseSuccess(req.user);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -30,7 +34,7 @@ export class AuthController {
   }
 
   @Get('icons')
-  async getIcons() {    
+  async getIcons() {
     return await this.menuServie.getIcons();
   }
 }

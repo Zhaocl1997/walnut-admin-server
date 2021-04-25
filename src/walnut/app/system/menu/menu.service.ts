@@ -3,10 +3,11 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
 import { Menu } from './schema/menu.schema';
+import { ResponseSuccess } from '../../shared/response';
 
 @Injectable()
 export class MenuService {
-  constructor(@InjectModel(Menu.name) private menuModel: Model<Menu>) { }
+  constructor(@InjectModel(Menu.name) private menuModel: Model<Menu>) {}
 
   async findById(id: Schema.Types.ObjectId): Promise<Menu> {
     return await this.menuModel.findById(id);
@@ -59,19 +60,19 @@ export class MenuService {
       .find({ deleted: false })
       .countDocuments();
 
-    return {
+    return ResponseSuccess({
       data,
       total,
-    };
+    });
   }
 
   async getIcons(): Promise<any> {
-    const icon = await this.menuModel.find({ deleted: false })
-    const ret = [...new Set(icon.map(item => item.icon).filter(i => i))]
+    const icon = await this.menuModel.find({ deleted: false });
+    const ret = [...new Set(icon.map((item) => item.icon).filter((i) => i))];
 
     return {
       data: ret,
-      total: ret.length
-    }
+      total: ret.length,
+    };
   }
 }

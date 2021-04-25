@@ -5,6 +5,7 @@ import * as bcrypt from 'bcrypt';
 
 import { UserService } from '../system/user/user.service';
 import { MenuService } from '../system/menu/menu.service';
+import { ResponseSuccess } from '../shared/response';
 
 @Injectable()
 export class AuthService {
@@ -37,13 +38,11 @@ export class AuthService {
       userId: payload._id,
       role: payload.role,
     };
-    return {
-      token: this.jwtService.sign(sign),
-    };
+    return ResponseSuccess({ token: this.jwtService.sign(sign) });
   }
 
   async getPermissionMenus() {
     const allMenus = await this.menuService.findAll();
-    return allMenus.data
+    return ResponseSuccess(allMenus.data);
   }
 }
