@@ -1,0 +1,40 @@
+{ 
+    "_id" : ObjectId("5fbd10a430391c1438ef8aa0"), 
+    "status" : true, 
+    "age" : NumberInt(22), 
+    "password" : "$2b$10$XVQi1d/r69YeRUD/LaGubu7rG8ugIZ7HgyoV8.ZqCd5ZURhjxb4NO", 
+    "role" : [
+        ObjectId("5fb27aee3a30b717d8078eb5")
+    ], 
+    "createdAt" : ISODate("2020-11-24T13:54:44.222+0000"), 
+    "updatedAt" : ISODate("2022-12-07T13:57:42.543+0000"), 
+    "userName" : "visitor", 
+    "deleted" : false, 
+    "hashedRefreshToken" : "$2b$10$O2g72IqFFYJpvEAlxwckQejIf0pjOBqg6koXHFOAhT4YLPELa9ds2", 
+    "nickName" : "Shinji", 
+    "avatar" : "https://walnut-demo.oss-cn-beijing.aliyuncs.com/avatar/5fbd10a430391c1438ef8aa0.png?t=1653053023945", 
+    "description" : "1", 
+    "emailAddress" : "1", 
+    "gender" : NumberInt(1), 
+    "phoneNumber" : "1"
+}
+{ 
+    "_id" : ObjectId("5fc63f5640cad739606d1700"), 
+    "status" : true, 
+    "age" : NumberInt(23), 
+    "password" : "$2b$10$BWcOayN/czX8yKWnMVfUu.8mvc6.Pg2nHof86LRJ6nkQ8Jn6URpFC", 
+    "role" : [
+        ObjectId("5fc63efbc661230af4695249")
+    ], 
+    "createdAt" : ISODate("2020-12-01T13:04:22.463+0000"), 
+    "updatedAt" : ISODate("2022-12-15T10:01:35.570+0000"), 
+    "userName" : "admin", 
+    "deleted" : false, 
+    "avatar" : "https://walnut-demo.oss-cn-beijing.aliyuncs.com/avatar/5fc63f5640cad739606d1700.png?t=1653053250019", 
+    "hashedRefreshToken" : "$2b$10$S2xrRoknG.IOiJHf48ocz.G/qkNUlm.uOubYPwoAE7mZA6oa3AL1i", 
+    "description" : "some descriptions", 
+    "emailAddress" : "159357@qq.com", 
+    "gender" : NumberInt(2), 
+    "nickName" : "Kaguya", 
+    "phoneNumber" : "13812345678"
+}

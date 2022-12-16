@@ -1,0 +1,216 @@
+{ 
+    "_id" : ObjectId("6327d73831d53f72e203e53d"), 
+    "deleted" : false, 
+    "settingName" : "验证码 - 邮箱 - 有效期", 
+    "settingKey" : "app.verify.email.ttl", 
+    "settingValue" : "300", 
+    "createdBy" : ObjectId("5fc63f5640cad739606d1700"), 
+    "createdAt" : ISODate("2022-09-19T02:43:04.697+0000"), 
+    "updatedAt" : ISODate("2022-09-30T02:31:40.965+0000"), 
+    "remark" : "单位秒，默认300秒", 
+    "settingType" : "verifyCode"
+}
+{ 
+    "_id" : ObjectId("6327d74531d53f72e203e544"), 
+    "deleted" : false, 
+    "settingName" : "验证码 - 短信 - 有效期", 
+    "settingKey" : "app.verify.phone.ttl", 
+    "settingValue" : "300", 
+    "createdBy" : ObjectId("5fc63f5640cad739606d1700"), 
+    "createdAt" : ISODate("2022-09-19T02:43:17.801+0000"), 
+    "updatedAt" : ISODate("2022-09-30T02:31:35.977+0000"), 
+    "remark" : "单位秒，默认300秒", 
+    "settingType" : "verifyCode"
+}
+{ 
+    "_id" : ObjectId("6327dc9b2d501aa20f90ea04"), 
+    "deleted" : false, 
+    "settingName" : "验证码 - 短信 - 位数", 
+    "settingKey" : "app.verify.phone.figure", 
+    "settingValue" : "6", 
+    "createdBy" : ObjectId("5fc63f5640cad739606d1700"), 
+    "createdAt" : ISODate("2022-09-19T03:06:03.585+0000"), 
+    "updatedAt" : ISODate("2022-09-30T02:31:31.503+0000"), 
+    "remark" : "默认6位，一般可改为4位", 
+    "settingType" : "verifyCode"
+}
+{ 
+    "_id" : ObjectId("6327dca42d501aa20f90ea0b"), 
+    "deleted" : false, 
+    "settingName" : "验证码 - 邮箱 - 位数", 
+    "settingKey" : "app.verify.email.figure", 
+    "settingValue" : "6", 
+    "createdBy" : ObjectId("5fc63f5640cad739606d1700"), 
+    "createdAt" : ISODate("2022-09-19T03:06:12.356+0000"), 
+    "updatedAt" : ISODate("2022-09-30T02:31:26.215+0000"), 
+    "remark" : "默认6位，一般可改为4位", 
+    "settingType" : "verifyCode"
+}
+{ 
+    "_id" : ObjectId("632806f9a9dc07b036be5bbe"), 
+    "deleted" : false, 
+    "settingName" : "认证 - 邮箱", 
+    "settingKey" : "app.auth.email", 
+    "settingValue" : "1", 
+    "createdBy" : ObjectId("5fc63f5640cad739606d1700"), 
+    "createdAt" : ISODate("2022-09-19T06:06:49.695+0000"), 
+    "updatedAt" : ISODate("2022-09-30T02:28:21.002+0000"), 
+    "remark" : "1 开启 0 关闭\n可根据此配置显隐认证表单", 
+    "settingType" : "auth"
+}
+{ 
+    "_id" : ObjectId("63280702a9dc07b036be5bc5"), 
+    "deleted" : false, 
+    "settingName" : "认证 - 短信", 
+    "settingKey" : "app.auth.phone", 
+    "settingValue" : "0", 
+    "createdBy" : ObjectId("5fc63f5640cad739606d1700"), 
+    "createdAt" : ISODate("2022-09-19T06:06:58.619+0000"), 
+    "updatedAt" : ISODate("2022-10-09T09:27:12.620+0000"), 
+    "remark" : "1 开启 0 关闭\n可根据此配置显隐认证表单", 
+    "settingType" : "auth"
+}
+{ 
+    "_id" : ObjectId("63281a99205f44b6727fd7c0"), 
+    "deleted" : false, 
+    "settingName" : "应用默认 - 密码", 
+    "settingKey" : "app.default.password", 
+    "settingValue" : "1234@abc#ABC", 
+    "remark" : "一个简单的默认密码", 
+    "createdBy" : ObjectId("5fc63f5640cad739606d1700"), 
+    "createdAt" : ISODate("2022-09-19T07:30:33.472+0000"), 
+    "updatedAt" : ISODate("2022-09-30T02:02:47.557+0000"), 
+    "settingType" : "default"
+}
+{ 
+    "_id" : ObjectId("63281b92205f44b6727fd7d1"), 
+    "deleted" : false, 
+    "settingName" : "应用默认 - 角色", 
+    "settingKey" : "app.default.role", 
+    "settingValue" : "5fb27aee3a30b717d8078eb5", 
+    "remark" : "默认的角色ID", 
+    "createdBy" : ObjectId("5fc63f5640cad739606d1700"), 
+    "createdAt" : ISODate("2022-09-19T07:34:42.881+0000"), 
+    "updatedAt" : ISODate("2022-09-30T02:02:43.123+0000"), 
+    "settingType" : "default"
+}
+{ 
+    "_id" : ObjectId("633650c706e64e1ec72700ba"), 
+    "deleted" : false, 
+    "settingName" : "认证 - 账号", 
+    "settingKey" : "app.auth.account", 
+    "settingValue" : "1", 
+    "settingType" : "auth", 
+    "createdBy" : ObjectId("5fc63f5640cad739606d1700"), 
+    "createdAt" : ISODate("2022-09-30T02:13:27.438+0000"), 
+    "updatedAt" : ISODate("2022-09-30T02:13:34.250+0000"), 
+    "remark" : "1 开启 0 关闭\n可根据此配置显隐认证表单"
+}
+{ 
+    "_id" : ObjectId("633650e306e64e1ec72700d0"), 
+    "deleted" : false, 
+    "settingName" : "认证 - 二维码", 
+    "settingKey" : "app.auth.qrcode", 
+    "settingValue" : "0", 
+    "settingType" : "auth", 
+    "remark" : "1 开启 0 关闭\n可根据此配置显隐认证表单", 
+    "createdBy" : ObjectId("5fc63f5640cad739606d1700"), 
+    "createdAt" : ISODate("2022-09-30T02:13:55.229+0000"), 
+    "updatedAt" : ISODate("2022-10-30T01:49:57.213+0000")
+}
+{ 
+    "_id" : ObjectId("63365f524e40fe0d507bc971"), 
+    "deleted" : false, 
+    "settingName" : "验证码 - 邮箱 - 发送", 
+    "settingKey" : "app.verify.email.send", 
+    "settingValue" : "1", 
+    "settingType" : "verifyCode", 
+    "remark" : "1 开启 0 关闭\n发送验证码的接口控制", 
+    "createdBy" : ObjectId("5fc63f5640cad739606d1700"), 
+    "createdAt" : ISODate("2022-09-30T03:15:30.103+0000"), 
+    "updatedAt" : ISODate("2022-09-30T03:15:30.103+0000")
+}
+{ 
+    "_id" : ObjectId("63365f814e40fe0d507bc97c"), 
+    "deleted" : false, 
+    "settingName" : "验证码 - 短信 - 发送", 
+    "settingKey" : "app.verify.phone.send", 
+    "settingValue" : "0", 
+    "settingType" : "verifyCode", 
+    "remark" : "1 开启 0 关闭\n发送验证码的接口控制", 
+    "createdBy" : ObjectId("5fc63f5640cad739606d1700"), 
+    "createdAt" : ISODate("2022-09-30T03:16:17.224+0000"), 
+    "updatedAt" : ISODate("2022-09-30T03:18:00.400+0000")
+}
+{ 
+    "_id" : ObjectId("6342915d83c762348e30f6f8"), 
+    "deleted" : false, 
+    "settingName" : "认证 - Oauth - Gitee", 
+    "settingKey" : "app.auth.gitee", 
+    "settingValue" : "1", 
+    "settingType" : "auth", 
+    "remark" : "1 开启 0 关闭", 
+    "createdBy" : ObjectId("5fc63f5640cad739606d1700"), 
+    "createdAt" : ISODate("2022-10-09T09:16:13.258+0000"), 
+    "updatedAt" : ISODate("2022-10-09T09:16:13.258+0000")
+}
+{ 
+    "_id" : ObjectId("6342917583c762348e30f703"), 
+    "deleted" : false, 
+    "settingName" : "认证 - Oauth - GitHub", 
+    "settingKey" : "app.auth.github", 
+    "settingValue" : "1", 
+    "settingType" : "auth", 
+    "remark" : "1 开启 0 关闭", 
+    "createdBy" : ObjectId("5fc63f5640cad739606d1700"), 
+    "createdAt" : ISODate("2022-10-09T09:16:37.901+0000"), 
+    "updatedAt" : ISODate("2022-10-30T01:46:05.303+0000")
+}
+{ 
+    "_id" : ObjectId("6342918a83c762348e30f70e"), 
+    "deleted" : false, 
+    "settingName" : "认证 - Oauth - Weibo", 
+    "settingKey" : "app.auth.weibo", 
+    "settingValue" : "1", 
+    "settingType" : "auth", 
+    "remark" : "1 开启 0 关闭", 
+    "createdBy" : ObjectId("5fc63f5640cad739606d1700"), 
+    "createdAt" : ISODate("2022-10-09T09:16:58.319+0000"), 
+    "updatedAt" : ISODate("2022-10-12T08:51:56.688+0000")
+}
+{ 
+    "_id" : ObjectId("6346805b8441ccf2c4a86f8e"), 
+    "deleted" : false, 
+    "settingName" : "认证 - Oauth - Wechat", 
+    "settingKey" : "app.auth.wechat", 
+    "settingValue" : "0", 
+    "settingType" : "auth", 
+    "remark" : "1 开启 0 关闭", 
+    "createdBy" : ObjectId("5fc63f5640cad739606d1700"), 
+    "createdAt" : ISODate("2022-10-12T08:52:43.129+0000"), 
+    "updatedAt" : ISODate("2022-10-12T08:52:43.129+0000")
+}
+{ 
+    "_id" : ObjectId("635dd78b1d3e0caf24ba9ab5"), 
+    "deleted" : false, 
+    "settingName" : "认证 - Oauth - QQ", 
+    "settingKey" : "app.auth.qq", 
+    "settingValue" : "0", 
+    "settingType" : "auth", 
+    "remark" : "1 开启 0 关闭", 
+    "createdBy" : ObjectId("5fc63f5640cad739606d1700"), 
+    "createdAt" : ISODate("2022-10-30T01:46:51.479+0000"), 
+    "updatedAt" : ISODate("2022-10-30T01:46:51.479+0000")
+}
+{ 
+    "_id" : ObjectId("635dd7c21d3e0caf24ba9ac0"), 
+    "deleted" : false, 
+    "settingName" : "认证 - Oauth - AliPay", 
+    "settingKey" : "app.auth.alipay", 
+    "settingValue" : "0", 
+    "settingType" : "auth", 
+    "remark" : "1 开启 0 关闭", 
+    "createdBy" : ObjectId("5fc63f5640cad739606d1700"), 
+    "createdAt" : ISODate("2022-10-30T01:47:46.451+0000"), 
+    "updatedAt" : ISODate("2022-10-30T01:47:51.805+0000")
+}

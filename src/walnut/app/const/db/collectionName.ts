@@ -1,0 +1,15 @@
+export const AppConstCollectionName = {
+  ROLE: 'sys_role',
+  USER: 'sys_user',
+  MENU: 'sys_menu',
+  LANG: 'sys_lang',
+  LOCALE: 'sys_locale',
+  LOG_OPERATE: 'sys_log_operate',
+  LOG_AUTH: 'sys_log_auth',
+  DICT_TYPE: 'sys_dict_type',
+  DICT_DATA: 'sys_dict_data',
+  SHARED_AREA: 'shared_area',
+  APP_SETTING: 'app_setting',
+  USER_OAUTH: 'sys_user_oauth',
+  USER_MONITOR: 'app_monitor_user',
+} as const;

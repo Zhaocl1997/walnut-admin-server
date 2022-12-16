@@ -1,0 +1,30 @@
+{
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "src",
+  "compilerOptions": {
+    "plugins": [
+      {
+        "name": "@nestjs/swagger/plugin",
+        "options": {
+          "dtoFileNameSuffix": [".dto.ts", ".entity.ts"],
+          "controllerFileNameSuffix": ".controller.ts",
+          "classValidatorShim": true
+        }
+      }
+    ],
+    "assets": [
+      {
+        "include": "walnut/app/i18n/**/*",
+        "watchAssets": true
+      },
+      {
+        "include": "walnut/app/views/*",
+        "watchAssets": true
+      },
+      {
+        "include": "walnut/app/modules/shared/mailer/template/*",
+        "watchAssets": true
+      }
+    ]
+  }
+}

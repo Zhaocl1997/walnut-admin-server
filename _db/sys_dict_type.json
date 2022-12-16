@@ -1,0 +1,130 @@
+{ 
+    "_id" : ObjectId("621098e6273ac97843b98dfb"), 
+    "description" : "状态，例如用户是否启用，角色是否启用等", 
+    "status" : true, 
+    "type" : "sys_shared_status", 
+    "name" : "dict.name.status", 
+    "deleted" : false, 
+    "createdAt" : ISODate("2022-02-19T07:14:46.691+0000"), 
+    "updatedAt" : ISODate("2022-04-11T05:51:55.271+0000")
+}
+{ 
+    "_id" : ObjectId("6212457a5694253a76fddd89"), 
+    "description" : "http://openstd.samr.gov.cn/bzgk/gb/newGbInfo?hcno=0FC942D542BC6EE3C707B2647EF81CD8", 
+    "status" : true, 
+    "type" : "gbt_sex", 
+    "name" : "dict.name.sex", 
+    "deleted" : false, 
+    "createdAt" : ISODate("2022-02-20T13:43:22.215+0000"), 
+    "updatedAt" : ISODate("2022-04-10T09:42:32.658+0000")
+}
+{ 
+    "_id" : ObjectId("623c3c64e8a9064c857cf754"), 
+    "description" : "对应UI的type风格", 
+    "status" : true, 
+    "type" : "sys_type", 
+    "name" : "dict.name.type", 
+    "deleted" : false, 
+    "createdAt" : ISODate("2022-03-24T09:39:48.271+0000"), 
+    "updatedAt" : ISODate("2022-04-11T05:53:01.160+0000")
+}
+{ 
+    "_id" : ObjectId("623c53e6cc4e009b0d21ee0f"), 
+    "description" : "操作日志中的操作类型", 
+    "status" : true, 
+    "type" : "sys_operate_type", 
+    "name" : "dict.name.operateType", 
+    "deleted" : false, 
+    "createdAt" : ISODate("2022-03-24T11:20:06.457+0000"), 
+    "updatedAt" : ISODate("2022-04-11T06:04:39.987+0000")
+}
+{ 
+    "_id" : ObjectId("6246bf79bd7d7fe6184005a6"), 
+    "description" : "系统默认是否成功", 
+    "status" : true, 
+    "type" : "sys_shared_success", 
+    "name" : "dict.name.success", 
+    "deleted" : false, 
+    "createdAt" : ISODate("2022-04-01T09:01:45.103+0000"), 
+    "updatedAt" : ISODate("2022-04-11T06:06:14.658+0000")
+}
+{ 
+    "_id" : ObjectId("624c09659781ef4d9511fcc4"), 
+    "status" : true, 
+    "type" : "gbt_edu", 
+    "name" : "dict.name.gbt_edu", 
+    "deleted" : false, 
+    "createdAt" : ISODate("2022-04-05T09:18:29.881+0000"), 
+    "updatedAt" : ISODate("2022-04-11T06:10:40.640+0000"), 
+    "description" : "http://openstd.samr.gov.cn/bzgk/gb/newGbInfo?hcno=D88049B2BB8325F1900B7C5F7E635AE8"
+}
+{ 
+    "_id" : ObjectId("624c29a6b4cc94bb20c31a21"), 
+    "description" : "http://openstd.samr.gov.cn/bzgk/gb/newGbInfo?hcno=E5C3271B62636C5DA6853A0DA23EBBA9", 
+    "status" : true, 
+    "type" : "gbt_nation", 
+    "name" : "dict.name.gbt_nation", 
+    "deleted" : false, 
+    "createdAt" : ISODate("2022-04-05T11:36:06.307+0000"), 
+    "updatedAt" : ISODate("2022-04-11T06:10:45.305+0000")
+}
+{ 
+    "_id" : ObjectId("624c2fe9b4cc94bb20c31ecc"), 
+    "description" : "http://openstd.samr.gov.cn/bzgk/gb/newGbInfo?hcno=00C2855745344E94D01AB6ACE6CC62CE", 
+    "status" : true, 
+    "type" : "gbt_marriage", 
+    "name" : "dict.name.gbt_marriage", 
+    "deleted" : false, 
+    "createdAt" : ISODate("2022-04-05T12:02:49.213+0000"), 
+    "updatedAt" : ISODate("2022-04-11T06:10:49.763+0000")
+}
+{ 
+    "_id" : ObjectId("624c3168b4cc94bb20c31f97"), 
+    "description" : "http://openstd.samr.gov.cn/bzgk/gb/newGbInfo?hcno=5D8EAFFA6F8B4AB6582FA764EF85041F", 
+    "status" : true, 
+    "type" : "gbt_health_1", 
+    "name" : "dict.name.gbt_health_1", 
+    "deleted" : false, 
+    "createdAt" : ISODate("2022-04-05T12:09:12.848+0000"), 
+    "updatedAt" : ISODate("2022-04-11T06:10:54.532+0000")
+}
+{ 
+    "_id" : ObjectId("624c32aab4cc94bb20c32004"), 
+    "description" : "http://openstd.samr.gov.cn/bzgk/gb/newGbInfo?hcno=16BCF58D77D483BA134C0938972A8B90", 
+    "status" : true, 
+    "type" : "gbt_employ", 
+    "name" : "dict.name.gbt_employ", 
+    "deleted" : false, 
+    "createdAt" : ISODate("2022-04-05T12:14:34.741+0000"), 
+    "updatedAt" : ISODate("2022-04-11T06:10:59.201+0000")
+}
+{ 
+    "_id" : ObjectId("632134e81173a975c154529e"), 
+    "deleted" : false, 
+    "name" : "dict.name.sys_auth_type", 
+    "type" : "sys_auth_type", 
+    "status" : true, 
+    "description" : "系统认证方式", 
+    "createdAt" : ISODate("2022-09-14T01:56:56.624+0000"), 
+    "updatedAt" : ISODate("2022-09-19T06:43:33.466+0000")
+}
+{ 
+    "_id" : ObjectId("6335556d8747bc18696e81a5"), 
+    "deleted" : false, 
+    "name" : "dict.name.app_cache_type", 
+    "type" : "app_cache_type", 
+    "status" : true, 
+    "description" : "应用缓存类型", 
+    "createdAt" : ISODate("2022-09-29T08:21:01.106+0000"), 
+    "updatedAt" : ISODate("2022-09-29T08:21:01.106+0000")
+}
+{ 
+    "_id" : ObjectId("63364acb20d7bce263f4566a"), 
+    "deleted" : false, 
+    "name" : "dict.name.app_setting_type", 
+    "type" : "app_setting_type", 
+    "status" : true, 
+    "description" : "应用设置的类型", 
+    "createdAt" : ISODate("2022-09-30T01:47:55.041+0000"), 
+    "updatedAt" : ISODate("2022-09-30T01:47:55.041+0000")
+}

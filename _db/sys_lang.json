@@ -1,0 +1,20 @@
+{ 
+    "_id" : ObjectId("6190a3ab006f39bf8a155a3a"), 
+    "deleted" : false, 
+    "status" : true, 
+    "order" : NumberInt(1), 
+    "description" : "English", 
+    "lang" : "en-US", 
+    "createdAt" : ISODate("2021-11-14T05:50:35.845+0000"), 
+    "updatedAt" : ISODate("2021-11-17T07:01:45.621+0000")
+}
+{ 
+    "_id" : ObjectId("6190a410006f39bf8a155a46"), 
+    "deleted" : false, 
+    "status" : true, 
+    "order" : NumberInt(2), 
+    "description" : "简体中文", 
+    "lang" : "zh-CN", 
+    "createdAt" : ISODate("2021-11-14T05:52:16.348+0000"), 
+    "updatedAt" : ISODate("2021-11-17T07:01:51.220+0000")
+}

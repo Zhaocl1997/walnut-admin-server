@@ -1,0 +1,30 @@
+{ 
+    "_id" : ObjectId("63427bc8412441228ec20964"), 
+    "deleted" : false, 
+    "userId" : ObjectId("63427bc8412441228ec20961"), 
+    "provider" : "weibo", 
+    "providerId" : "5104963868", 
+    "status" : true, 
+    "createdAt" : ISODate("2022-10-09T07:44:08.947+0000"), 
+    "updatedAt" : ISODate("2022-10-09T07:44:08.947+0000")
+}
+{ 
+    "_id" : ObjectId("63427bdc412441228ec2097d"), 
+    "deleted" : false, 
+    "userId" : ObjectId("63427bdc412441228ec2097a"), 
+    "provider" : "gitee", 
+    "providerId" : "10320295", 
+    "status" : true, 
+    "createdAt" : ISODate("2022-10-09T07:44:28.125+0000"), 
+    "updatedAt" : ISODate("2022-10-09T07:44:28.125+0000")
+}
+{ 
+    "_id" : ObjectId("63428e9683c762348e30f5f4"), 
+    "deleted" : false, 
+    "userId" : ObjectId("63428e9683c762348e30f5f1"), 
+    "provider" : "github", 
+    "providerId" : "52120824", 
+    "status" : true, 
+    "createdAt" : ISODate("2022-10-09T09:04:22.811+0000"), 
+    "updatedAt" : ISODate("2022-10-09T09:04:22.811+0000")
+}

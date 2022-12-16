@@ -1,0 +1,16 @@
+{
+  "welcome": {
+    "subject": "Welcome to Walnut Admin Template",
+    "title": "Welcome to signup for Walnut Admin Template",
+    "desc1": "To know more about this project, please check the document",
+    "desc2": "If you like this project, please give me a star",
+    "here": "here"
+  },
+  "verify": {
+    "subject": "Email verify code",
+    "title": "Be aware that you are doing a sensitive operation",
+    "desc1": "Please enter the following numbers in the verification code input box",
+    "desc2": "If you do not operate by yourself, please log in in time and change your password to ensure account security",
+    "desc3": "Verification code valid for {min} minutes"
+  }
+}
