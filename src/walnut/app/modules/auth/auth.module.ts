@@ -38,8 +38,6 @@ import { AppSmsModule } from '@/modules/shared/sms/sms.module';
 import { AppMailerModule } from '@/modules/shared/mailer/mailer.module';
 
 import { UtilServiceVeriyCode } from '../shared/utils/verifyCode';
-import { AuthFingerPrintController } from './controllers/fingerprint.controller';
-import { AuthFingerprintService } from './services/fingerprint.service';
 import { AuthOauthService } from './services/oauth.service';
 
 // https://gitee.com/oauth/applications
@@ -88,11 +86,10 @@ const strategies = [
     AppSmsModule,
     AppMailerModule,
   ],
-  controllers: [AuthController, AuthFingerPrintController, ...controllers],
+  controllers: [AuthController, ...controllers],
   providers: [
     // base auth serivce
     AuthService,
-    AuthFingerprintService,
 
     ...strategies,
 
