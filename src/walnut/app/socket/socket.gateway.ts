@@ -9,6 +9,7 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
+import { SocketService } from './socket.service';
 
 // TODO extract to config
 @WebSocketGateway({
@@ -19,11 +20,14 @@ export class SocketGateway
 {
   private readonly logger = new Logger(SocketGateway.name);
 
+  constructor(private readonly socketService: SocketService) {}
+
   @WebSocketServer()
   private readonly server: Server;
 
-  afterInit() {
+  afterInit(client: Server) {
     this.logger.debug('Websocket Server Started, Listening on Port: 5173');
+    this.socketService.socket = client
   }
 
   handleDisconnect(client: Socket) {
