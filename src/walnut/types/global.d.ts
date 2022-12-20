@@ -38,18 +38,6 @@ declare global {
   }
 
   type IWalnutTokenUser = Omit<IWalnutTokenPayload, 'key' | 'iat' | 'exp'>;
-
-  type FingerPrintInfo = {
-    tokens: {
-      accessToken: string;
-      refreshToken: string;
-    };
-    auth: {
-      github?: boolean;
-      gitee?: boolean;
-      weibo?: boolean;
-    };
-  };
 }
 
 export {};
