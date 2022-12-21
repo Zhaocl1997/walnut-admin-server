@@ -5,7 +5,7 @@ import { AppSettingDto } from './dto/setting.dto';
 
 import { WalnutListRequestDTO } from '@/common/dto/list.dto';
 import { AppCacheService } from '@/modules/app/monitor/cache/cache.service';
-import { AppConstCacheKeys, AppConstSettingKeys } from '@/const/app/cache';
+import { AppConstCacheKeys, AppConstCacheType, AppConstSettingKeys } from '@/const/app/cache';
 
 @Injectable()
 export class AppSettingService {
@@ -57,7 +57,7 @@ export class AppSettingService {
     this.logger.debug('Extracting App Settings...');
 
     await this.cacheService.set(AppConstCacheKeys.APP_SETTING, dataToCache, {
-      t: 'built-in',
+      t: AppConstCacheType.BUILT_IN,
     });
   }
 

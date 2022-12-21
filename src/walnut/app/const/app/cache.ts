@@ -16,8 +16,6 @@ export const AppConstCacheType = {
   AUTH_ROLE_NAMES: 'auth-roleNames',
   VERIFY_CODE: 'verify-code',
   LOCALES: 'locales',
-  MONITOR: 'monitor',
-  // TODO
   AREA: 'area',
 } as const;
 

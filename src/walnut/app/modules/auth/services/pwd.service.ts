@@ -6,6 +6,7 @@ import { AppTokenService } from '@/modules/shared/token/token.service';
 import { AppCacheService } from '@/modules/app/monitor/cache/cache.service';
 import { SysUserService } from '@/modules/business/system/user/user.service';
 import { AppTokenEntity } from '../entities/auth.entity';
+import { AppConstCacheType } from '@/const/app/cache';
 
 @Injectable()
 export class AuthPwdService {
@@ -41,12 +42,12 @@ export class AuthPwdService {
     // set permissions into cache
     this.cacheService.set(`P_${payload.userId}`, permissions, {
       ttl: CACHE_TTL,
-      t: 'auth-permissions',
+      t: AppConstCacheType.AUTH_PERMISSIONS,
     });
     // set roleNames into cache
     this.cacheService.set(`R_${payload.userId}`, payload.roleNames, {
       ttl: CACHE_TTL,
-      t: 'auth-roleNames',
+      t: AppConstCacheType.AUTH_ROLE_NAMES,
     });
 
     return new AppTokenEntity({ accessToken, refreshToken });

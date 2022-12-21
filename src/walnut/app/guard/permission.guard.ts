@@ -16,6 +16,7 @@ import {
 import { AppCacheService } from '@/modules/app/monitor/cache/cache.service';
 import { AppPermissionService } from '@/modules/shared/permission/permission.service';
 import { AppConstHeaders } from '@/const/app/header';
+import { AppConstCacheType } from '@/const/app/cache';
 
 @Injectable()
 export class PermissionGuard implements CanActivate {
@@ -77,7 +78,7 @@ export class PermissionGuard implements CanActivate {
       this.cacheService.set(`P_${user.userId}`, allPermissions, {
         ttl: user.exp - user.iat,
         start: user.iat * 1000,
-        t: 'auth-permissions'
+        t: AppConstCacheType.AUTH_PERMISSIONS
       });
     }
 

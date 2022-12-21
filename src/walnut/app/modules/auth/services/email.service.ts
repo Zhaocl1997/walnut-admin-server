@@ -4,7 +4,7 @@ import { AppCacheService } from '@/modules/app/monitor/cache/cache.service';
 import { AppMailerService } from '@/modules/shared/mailer/mailer.service';
 import { UtilServiceVeriyCode } from '@/modules/shared/utils/verifyCode';
 
-import { AppConstCacheKeys, AppConstSettingKeys } from '@/const/app/cache';
+import { AppConstCacheKeys, AppConstCacheType, AppConstSettingKeys } from '@/const/app/cache';
 
 import { SendAuthEmailDTO } from '../dto/auth.dto';
 import { AuthPwdService } from './pwd.service';
@@ -46,7 +46,7 @@ export class AuthEmailService {
     // default 300s
     await this.cacheService.set(cacheKey, code, {
       ttl: codeTTL,
-      t: 'verify-code',
+      t: AppConstCacheType.VERIFY_CODE,
     });
 
     return true;

@@ -1,4 +1,4 @@
-import { AppConstCacheTypeType } from '@/const/app/cache';
+import { AppConstCacheType, AppConstCacheTypeType } from '@/const/app/cache';
 import { CACHE_MANAGER, Inject, Injectable } from '@nestjs/common';
 import { Cache, StoreConfig } from 'cache-manager';
 
@@ -100,7 +100,7 @@ export class AppCacheService {
 
     await Promise.all(
       Object.entries(allData).map(
-        ([k, v]) => v.t !== 'built-in' && this.del(k),
+        ([k, v]) => v.t !== AppConstCacheType.BUILT_IN && this.del(k),
       ),
     );
 

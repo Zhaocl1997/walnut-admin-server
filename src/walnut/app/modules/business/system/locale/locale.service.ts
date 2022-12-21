@@ -22,6 +22,7 @@ import { SysLocaleDto } from './dto/locale.dto';
 import { SysLocaleEntity } from './entities/locale.entity';
 import { SysLocaleModel, SysLocaleDocument } from './schema/locale.schema';
 import { SysLangDto } from '../lang/dto/lang.dto';
+import { AppConstCacheType } from '@/const/app/cache';
 
 @Injectable()
 export class SysLocaleService {
@@ -55,7 +56,7 @@ export class SysLocaleService {
         const data = await this.sysLangService.getByLangName(i.lang);
 
         await this.cacheService.set(this.getKeys(i.lang), data.data, {
-          t: 'locales',
+          t: AppConstCacheType.LOCALES,
         });
       }),
     );
@@ -75,7 +76,7 @@ export class SysLocaleService {
       const locales = await this.sysLangService.getByLangName(lang);
 
       await this.cacheService.set(this.getKeys(lang), locales.data, {
-        t: 'locales',
+        t: AppConstCacheType.LOCALES,
       });
 
       return locales.data;

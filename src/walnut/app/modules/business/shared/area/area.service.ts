@@ -13,7 +13,7 @@ import {
 import { Model } from 'mongoose';
 
 import { SharedAreaModel, SharedAreaDocument } from './schema/area.schema';
-import { AppConstCacheKeys } from '@/const/app/cache';
+import { AppConstCacheKeys, AppConstCacheType } from '@/const/app/cache';
 import { AppInjectModel } from '@/database/database.decorator';
 import { AppCacheService } from '@/modules/app/monitor/cache/cache.service';
 
@@ -69,7 +69,7 @@ export class SharedAreaService {
         .select('-_id name code pcode')
         .lean();
 
-      await this.cacheManager.set(CACHE_KEY, res, { t: 'area' });
+      await this.cacheManager.set(CACHE_KEY, res, { t: AppConstCacheType.AREA });
 
       return res;
     }
@@ -83,7 +83,7 @@ export class SharedAreaService {
         .lean();
 
       await this.cacheManager.set(CACHE_KEY, cachedData.concat(res as any), {
-        t: 'area',
+        t: AppConstCacheType.AREA,
       });
 
       return res;

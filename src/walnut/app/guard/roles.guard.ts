@@ -15,6 +15,7 @@ import {
 import { WalnutExceptionAccessDenied } from '@/exceptions/bussiness/auth';
 import { AppCacheService } from '@/modules/app/monitor/cache/cache.service';
 import { SysUserService } from '@/modules/business/system/user/user.service';
+import { AppConstCacheType } from '@/const/app/cache';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -74,7 +75,7 @@ export class RolesGuard implements CanActivate {
       this.cacheService.set(`R_${user.userId}`, allRoleNames, {
         ttl: user.exp - user.iat,
         start: user.iat * 1000,
-        t: 'auth-roleNames',
+        t: AppConstCacheType.AUTH_ROLE_NAMES,
       });
     }
 
