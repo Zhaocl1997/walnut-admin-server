@@ -3,6 +3,7 @@ import { ApiTags } from '@nestjs/swagger';
 
 import { SysUserService } from './user.service';
 import { SysUserDto } from './dto/user.dto';
+import { SysUserEntity } from './entities/user.entity';
 
 import { WalnutListRequestDTO } from '@/common/dto/list.dto';
 import { AppConstLogOperateTitle } from '@/const/decorator/logOperate';
@@ -36,7 +37,8 @@ export class SysUserController {
   @CreateDecorator()
   @HasPermission(AppConstPermissionUser.CREATE)
   async create(@Body() payload: SysUserDto) {
-    return await this.userService.create(payload);
+    const user = await this.userService.createUser(payload)
+    return new SysUserEntity(user.toObject());
   }
 
   @ReadDecorator()

@@ -17,7 +17,7 @@ export const WalnutGetListParams = <T>(
 ): WalnutListParmsReturn => {
   if (!params || Object.keys(params).length === 0) {
     return {
-      match: { deleted: false, ...extraMatch },
+      match: { ...extraMatch },
       sorts: null,
       skip: null,
       limit: null,
@@ -26,7 +26,7 @@ export const WalnutGetListParams = <T>(
 
   const { query, sort, page } = params;
 
-  let match: Record<string, any> = { deleted: false, ...extraMatch };
+  let match: Record<string, any> = { ...extraMatch };
   let sorts: Record<string, any> = { order: 1, createdAt: -1 };
 
   // handle query

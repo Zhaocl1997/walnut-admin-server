@@ -1,9 +1,10 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, Schema } from '@nestjs/mongoose';
 import { Schema as MongooseSchema } from 'mongoose';
 
 import { WalnutAbstractModel } from '@/common/model/base.model';
 import { AppConstCollectionName } from '@/const/db/collectionName';
 import { SysUserModel } from '../../user/schema/user.schema';
+import { createWalnutSchema } from '@/common/schema/base.schema';
 
 export type SysUserOauthDocument = SysUserOauthModel;
 
@@ -16,7 +17,7 @@ export class SysUserOauthModel extends WalnutAbstractModel {
   @Prop({
     type: MongooseSchema.Types.ObjectId,
     ref: SysUserModel.name,
-    required: true
+    required: true,
   })
   userId: MongooseSchema.Types.ObjectId;
 
@@ -30,5 +31,4 @@ export class SysUserOauthModel extends WalnutAbstractModel {
   status: boolean;
 }
 
-export const SysUserOauthSchema =
-  SchemaFactory.createForClass(SysUserOauthModel);
+export const SysUserOauthSchema = createWalnutSchema(SysUserOauthModel);

@@ -28,7 +28,7 @@ export class LocalPhoneStrategy extends PassportStrategy(
     // "AuthService" is a request-scoped provider
     const authService = await this.moduleRef.resolve(AuthService, contextId);
 
-    const user = await authService.validateUserPhone(phoneNumber, verifyCode);
+    const user = await authService._validateUserPhone(phoneNumber, verifyCode);
 
     return user;
   }

@@ -1,6 +1,7 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, Schema } from '@nestjs/mongoose';
 import { WalnutAbstractModel } from '@/common/model/base.model';
 import { AppConstCollectionName } from '@/const/db/collectionName';
+import { createWalnutSchema } from '@/common/schema/base.schema';
 
 export type SysDictTypeDocument = SysDictTypeModel;
 
@@ -23,7 +24,7 @@ export class SysDictTypeModel extends WalnutAbstractModel {
   description: string;
 }
 
-export const SysDictTypeSchema = SchemaFactory.createForClass(SysDictTypeModel);
+export const SysDictTypeSchema = createWalnutSchema(SysDictTypeModel);
 
 SysDictTypeSchema.virtual('dictData', {
   ref: 'SysDictDataModel',

@@ -49,7 +49,7 @@ export class AuthOauthWeiboStrategy extends PassportStrategy(
 
     this.logger.debug({ provider, id, name });
 
-    const user = await authService.validateOauthUser(
+    const user = await authService._validateUserOauth(
       name,
       provider,
       id,

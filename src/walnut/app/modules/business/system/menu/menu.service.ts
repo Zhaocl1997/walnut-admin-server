@@ -46,7 +46,6 @@ export class SysMenuService {
     if (roles.some((role) => role.roleName === AppConstRoles.ADMIN)) {
       const allMenus = await this.menuModel
         .find({
-          deleted: false,
           status: true,
         })
         .lean();
@@ -64,7 +63,7 @@ export class SysMenuService {
 
   // used for front end icon offline bundle
   async getIcons(): Promise<WalnutListResponseDTO<string>> {
-    const icon = await this.menuModel.find({ deleted: false });
+    const icon = await this.menuModel.find();
     const ret = [...new Set(icon.map((item) => item.icon).filter((i) => i))];
 
     return {

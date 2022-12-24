@@ -1,8 +1,9 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, Schema } from '@nestjs/mongoose';
 import { Schema as MongooseSchema } from 'mongoose';
 import { WalnutAbstractModel } from '@/common/model/base.model';
 import { AppConstCollectionName } from '@/const/db/collectionName';
 import { SysMenuModel } from '../../menu/schema/menu.schema';
+import { createWalnutSchema } from '@/common/schema/base.schema';
 
 export type SysRoleDocument = SysRoleModel;
 
@@ -28,7 +29,7 @@ export class SysRoleModel extends WalnutAbstractModel {
   status: boolean;
 }
 
-export const SysRoleSchema = SchemaFactory.createForClass(SysRoleModel);
+export const SysRoleSchema = createWalnutSchema(SysRoleModel);
 
 SysRoleSchema.virtual('users', {
   ref: 'SysUserModel',

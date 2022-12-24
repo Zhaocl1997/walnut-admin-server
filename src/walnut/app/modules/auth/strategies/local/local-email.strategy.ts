@@ -28,7 +28,7 @@ export class LocalEmailStrategy extends PassportStrategy(
     // "AuthService" is a request-scoped provider
     const authService = await this.moduleRef.resolve(AuthService, contextId);
 
-    const user = await authService.validateUserEmail(
+    const user = await authService._validateUserEmail(
       emailAddress,
       verifyCode,
       request.language,

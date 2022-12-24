@@ -22,23 +22,67 @@ export class SysUserService {
     private readonly cacheService: AppCacheService,
   ) {}
 
+  async findUser(payload: Partial<SysUserDto>) {
+    return await this.sysUserModel.findOne(payload);
+  }
+
+  async insertUserIfNotExisted(
+    payload: Partial<SysUserDto>,
+    notExistedCallback: (
+      user: Partial<SysUserModel>,
+    ) => Promise<void> | void = () => {},
+  ) {
+    let _user: SysUserModel;
+
+    const incomeUser = await this.sysUserModel.findOne(payload);
+
+    if (!incomeUser) {
+      _user = await this.createUser(payload);
+      await notExistedCallback(_user);
+    } else {
+      _user = incomeUser;
+    }
+
+    const populatedUser = await _user.populate<{
+      role: SysRoleDocument[];
+    }>({
+      path: 'role',
+      match: {
+        deleted: false,
+        status: true,
+      },
+    });
+
+    return {
+      user: populatedUser,
+      roleIds: populatedUser.role.map((i) => i._id.toString()),
+      roleNames: populatedUser.role.map((i) => i.roleName),
+    };
+  }
+
   /**
    * @description set hashed refresh token into db
    */
   async setRefreshToken(refreshToken: string, userId: string) {
     const hashedRefreshToken = await hash(refreshToken, 10);
-    return await this.sysUserModel.findByIdAndUpdate(userId, {
-      hashedRefreshToken,
-    });
+    return await this.sysUserModel.findOneAndUpdate(
+      { _id: userId },
+      {
+        hashedRefreshToken,
+      },
+    );
   }
 
   /**
    * @description remove refresh token from db
    */
   async removeRefreshToken(userId: string) {
-    return await this.sysUserModel.findByIdAndUpdate(userId, {
-      hashedRefreshToken: '',
-    });
+    return await this.sysUserModel.findOneAndUpdate(
+      { _id: userId },
+      {
+        hashedRefreshToken: '',
+      },
+    );
   }
 
   /**
@@ -69,14 +113,6 @@ export class SysUserService {
    */
   async getUserRoleByCondition(condition: Partial<SysUserDto>) {
     const user = await this.getUserByCondition(condition);
-
-    if (!user) {
-      return {
-        user: null,
-        roleIds: null,
-        roleNames: null,
-      };
-    }
 
     const populatedUser = await user.populate<{
       role: SysRoleDocument[];
@@ -114,38 +150,8 @@ export class SysUserService {
     return populatedUser.role.map((i) => i.roleName);
   }
 
-  /**
-   * @description get user role id list through condition
-   */
-  async getUserRoleIdsByCondition(condition: Partial<SysUserDto>) {
-    const user = await this.getUserByCondition(condition);
-
-    const populatedUser = await user.populate<{
-      role: SysRoleDocument[];
-    }>({
-      path: 'role',
-      match: {
-        deleted: false,
-        status: true,
-      },
-    });
-
-    return populatedUser.role.map((i) => i._id.toString());
-  }
-
-  /**
-   * @description use userRepo to check user existence
-   */
-  async checkUserExistence(dto: Partial<SysUserDto>) {
-    return await this.sysUserRepo.isExistByUniqueKey({
-      userName: dto.userName,
-      emailAddress: dto.emailAddress,
-      phoneNumber: dto.phoneNumber,
-    });
-  }
-
   // base CRUD
-  async create(dto: Partial<SysUserDto>) {
+  async createUser(dto: Partial<SysUserDto>) {
     const appSetting = await this.cacheService.get(
       AppConstCacheKeys.APP_SETTING,
     );

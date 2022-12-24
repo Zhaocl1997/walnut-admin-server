@@ -1,9 +1,10 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, Schema } from '@nestjs/mongoose';
 import { Schema as MongooseSchema } from 'mongoose';
 
 import { WalnutAbstractModel } from '@/common/model/base.model';
 import { AppConstCollectionName } from '@/const/db/collectionName';
 import { SysUserModel } from '@/modules/business/system/user/schema/user.schema';
+import { createWalnutSchema } from '@/common/schema/base.schema';
 
 export type AppMonitorUserDocument = AppMonitorUserModel;
 
@@ -57,4 +58,4 @@ export class AppMonitorUserModel extends WalnutAbstractModel {
 }
 
 export const AppMonitorUserSchema =
-  SchemaFactory.createForClass(AppMonitorUserModel);
+  createWalnutSchema(AppMonitorUserModel);

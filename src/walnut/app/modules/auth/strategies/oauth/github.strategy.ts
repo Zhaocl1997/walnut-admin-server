@@ -49,7 +49,7 @@ export class AuthOauthGitHubStrategy extends PassportStrategy(
 
     this.logger.debug({ id, username, email, avatar_url, provider });
 
-    const user = await authService.validateOauthUser(
+    const user = await authService._validateUserOauth(
       username,
       provider,
       id,

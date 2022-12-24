@@ -1,10 +1,11 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, Schema } from '@nestjs/mongoose';
 import { Schema as MongooseSchema } from 'mongoose';
 import { genSalt, hash } from 'bcrypt';
 
 import { SysRoleModel } from '../../role/schema/role.schema';
 import { WalnutAbstractModel } from '@/common/model/base.model';
 import { AppConstCollectionName } from '@/const/db/collectionName';
+import { createWalnutSchema } from '@/common/schema/base.schema';
 
 export type SysUserDocument = SysUserModel;
 
@@ -72,7 +73,7 @@ export class SysUserModel extends WalnutAbstractModel {
   hashedRefreshToken: string;
 }
 
-export const SysUserSchema = SchemaFactory.createForClass(SysUserModel);
+export const SysUserSchema = createWalnutSchema(SysUserModel);
 
 SysUserSchema.pre('save', async function (next) {
   const user = this as SysUserModel;

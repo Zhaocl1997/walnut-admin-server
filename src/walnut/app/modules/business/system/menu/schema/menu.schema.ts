@@ -1,7 +1,8 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, Schema } from '@nestjs/mongoose';
 import { Schema as MongooseSchema } from 'mongoose';
 import { WalnutAbstractModel } from '@/common/model/base.model';
 import { AppConstCollectionName } from '@/const/db/collectionName';
+import { createWalnutSchema } from '@/common/schema/base.schema';
 
 export type SysMenuDocument = SysMenuModel;
 
@@ -104,13 +105,4 @@ export class SysMenuModel extends WalnutAbstractModel {
   leaveTip: boolean;
 }
 
-export const SysMenuSchema = SchemaFactory.createForClass(SysMenuModel);
-
-// SysMenuSchema.pre('findOneAndUpdate', async function () {
-//   console.log('[menu pre findOneAndUpdate]');
-// });
-
-// SysMenuSchema.pre('save', async function (next) {
-//   console.log('[menu pre save]');
-//   next();
-// });
+export const SysMenuSchema = createWalnutSchema(SysMenuModel);

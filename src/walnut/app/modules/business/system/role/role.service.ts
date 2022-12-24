@@ -42,7 +42,7 @@ export class SysRoleService {
 
   async delete(id: string) {
     const deleted = await this.SysRoleModel.aggregate([
-      { $match: { _id: new Types.ObjectId(id), deleted: false } },
+      { $match: { _id: new Types.ObjectId(id) } },
       {
         $lookup: {
           from: AppConstCollectionName.USER,

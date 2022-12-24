@@ -32,7 +32,7 @@ export class AuthService {
    * @description check user can continue or not
    * Last Step
    */
-  async checkUserCanContinue(payload: {
+  async checkUserStatus(payload: {
     user: MergeType<SysUserDocument, { role: SysRoleDocument[] }>;
     roleIds: string[];
     roleNames: string[];
@@ -65,12 +65,11 @@ export class AuthService {
   /**
    * @description validate user password
    */
-  async validateUserPassword(
+  async _validateUserPassword(
     payloadName: string,
     pass: string,
   ): Promise<IWalnutTokenUser> {
-    // check user existence through user name
-    const isExisted = await this.userService.checkUserExistence({
+    const isExisted = await this.userService.findUser({
       userName: payloadName,
     });
 
@@ -80,9 +79,8 @@ export class AuthService {
       throw new WalnutExceptionUserNotFound();
     }
 
-    // get all relative user info
     const { user, roleIds, roleNames } =
-      await this.userService.getUserRoleByCondition({
+      await this.userService.insertUserIfNotExisted({
         userName: payloadName,
       });
 
@@ -105,90 +103,66 @@ export class AuthService {
     }
 
     // last step to check whether user is banned ot user's all role is banned
-    return await this.checkUserCanContinue({ user, roleIds, roleNames });
+    return await this.checkUserStatus({ user, roleIds, roleNames });
   }
 
   /**
    * @description validate user email address
    */
-  async validateUserEmail(
+  async _validateUserEmail(
     payloadEmail: string,
     verifyCode: string,
     language: string,
   ): Promise<IWalnutTokenUser> {
-    // check user existence through email address
-    const isExisted = await this.userService.checkUserExistence({
-      emailAddress: payloadEmail,
-    });
-
-    // if no exist, this means new user, it's a signup
-    // do the simple insert
-    if (!isExisted) {
-      const { emailAddress } = await this.userService.create({
-        emailAddress: payloadEmail,
-        userName: payloadEmail,
-      });
-
-      // send welcome email
-      await this.mailerService.sendWelcome(emailAddress, language);
-    }
-
-    // get all relative user info
-    const { user, roleIds, roleNames } =
-      await this.userService.getUserRoleByCondition({
-        emailAddress: payloadEmail,
-      });
-
-    // check the verify code with the one in cache
+    // Step 1 - check the verify code with the one in cache
     const cacheCode = await this.cacheService.get(payloadEmail);
     if (+cacheCode !== +verifyCode) {
       throw new WalnutExceptionVerifyCodeError();
     }
 
-    // last step to check whether user is banned ot user's all role is banned
-    return await this.checkUserCanContinue({ user, roleIds, roleNames });
+    // send the welcome email
+    const cb = async ({ emailAddress }) => {
+      await this.mailerService.sendWelcome(emailAddress, language);
+    };
+
+    // Step 2 - go to db to check user existed or not
+    // no existed, system will auto create a default user
+    const { user, roleIds, roleNames } =
+      await this.userService.insertUserIfNotExisted(
+        {
+          userName: payloadEmail,
+          emailAddress: payloadEmail,
+        },
+        cb,
+      );
+
+    // Step 3 - check status and return token payload
+    return await this.checkUserStatus({ user, roleIds, roleNames });
   }
 
   /**
    * @description validate user phone number
    */
-  async validateUserPhone(
+  async _validateUserPhone(
     payloadPhone: string,
     verifyCode: string,
   ): Promise<IWalnutTokenUser> {
-    // check user existence through phone number
-    const isExisted = await this.userService.checkUserExistence({
-      phoneNumber: payloadPhone,
-    });
-
-    async function insert(service: typeof this.userService) {
-      // if no exist, this means new user, it's a signup
-      // do the simple insert
-      if (!isExisted) {
-        await service.create({
-          phoneNumber: payloadPhone,
-          userName: payloadPhone,
-        });
-      }
-    }
-
-    // insert to database
-    await insert(this.userService);
-
-    // get all relative user info
-    const { user, roleIds, roleNames } =
-      await this.userService.getUserRoleByCondition({
-        phoneNumber: payloadPhone,
-      });
-
-    // check the verify code with the one in cache
+    // Step 1 - check the verify code with the one in cache
     const cacheCode = await this.cacheService.get(payloadPhone);
     if (+cacheCode !== +verifyCode) {
       throw new WalnutExceptionVerifyCodeError();
     }
 
-    // last step to check whether user is banned ot user's all role is banned
-    return await this.checkUserCanContinue({ user, roleIds, roleNames });
+    // Step 2 - go to db to check user existed or not
+    // no existed, system will auto create a default user
+    const { user, roleIds, roleNames } =
+      await this.userService.insertUserIfNotExisted({
+        userName: payloadPhone,
+        phoneNumber: payloadPhone,
+      });
+
+    // Step 3 - check status and return token payload
+    return await this.checkUserStatus({ user, roleIds, roleNames });
   }
 
   /**

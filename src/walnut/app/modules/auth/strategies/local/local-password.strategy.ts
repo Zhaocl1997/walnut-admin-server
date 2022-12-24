@@ -20,7 +20,7 @@ export class LocalPasswordStrategy extends PassportStrategy(
     // "AuthService" is a request-scoped provider
     const authService = await this.moduleRef.resolve(AuthService, contextId);
 
-    const user = await authService.validateUserPassword(userName, password);
+    const user = await authService._validateUserPassword(userName, password);
 
     return user;
   }

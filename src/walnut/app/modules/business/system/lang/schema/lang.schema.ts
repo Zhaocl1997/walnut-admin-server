@@ -1,6 +1,7 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, Schema } from '@nestjs/mongoose';
 import { WalnutAbstractModel } from '@/common/model/base.model';
 import { AppConstCollectionName } from '@/const/db/collectionName';
+import { createWalnutSchema } from '@/common/schema/base.schema';
 
 export type SysLangDocument = SysLangModel & WalnutAbstractModel;
 
@@ -27,7 +28,7 @@ export class SysLangModel extends WalnutAbstractModel {
   status: Boolean;
 }
 
-export const SysLangSchema = SchemaFactory.createForClass(SysLangModel);
+export const SysLangSchema = createWalnutSchema(SysLangModel);
 
 SysLangSchema.virtual('locales', {
   ref: 'SysLocaleModel',

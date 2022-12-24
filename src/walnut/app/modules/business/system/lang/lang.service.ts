@@ -50,7 +50,7 @@ export class SysLangService {
    */
   async listPublic() {
     return await this.SysLangModel.find(
-      { deleted: false, status: true },
+      { status: true },
       { order: 1, lang: 1, description: 1, _id: 0 },
     ).lean();
   }
@@ -61,7 +61,7 @@ export class SysLangService {
   async getByLangName(lang: string) {
     const res = await this.SysLangModel.aggregate([
       {
-        $match: { lang, deleted: false },
+        $match: { lang },
       },
       {
         $lookup: {

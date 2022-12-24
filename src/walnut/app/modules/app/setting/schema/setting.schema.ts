@@ -1,10 +1,11 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, Schema } from '@nestjs/mongoose';
 import { Schema as MongooseSchema } from 'mongoose';
 
 import { WalnutAbstractModel } from '@/common/model/base.model';
 import { AppConstCollectionName } from '@/const/db/collectionName';
 import { SysUserModel } from '@/modules/business/system/user/schema/user.schema';
 import { AppConstSettingTypeType } from '@/const/app/setting';
+import { createWalnutSchema } from '@/common/schema/base.schema';
 
 export type AppSettingDocument = AppSettingModel;
 
@@ -37,4 +38,4 @@ export class AppSettingModel extends WalnutAbstractModel {
   createdBy: MongooseSchema.Types.ObjectId;
 }
 
-export const AppSettingSchema = SchemaFactory.createForClass(AppSettingModel);
+export const AppSettingSchema = createWalnutSchema(AppSettingModel);

@@ -91,9 +91,8 @@ export class SysLocaleService {
 
     const keys = Object.keys(dto);
 
-    const isExist = await this.SysLocaleModel.findOne({
+    const isExist = await this.SysLocaleModel.find({
       key: dto.key,
-      deleted: false,
     });
 
     if (isExist) {
@@ -139,7 +138,7 @@ export class SysLocaleService {
    * @description: locale read, change the return data structure
    */
   async read(key: string) {
-    const data = await this.SysLocaleModel.find({ key, deleted: false });
+    const data = await this.SysLocaleModel.find({ key });
 
     const result = Object.fromEntries(data.map((i) => [i.langId, i.value]));
 
@@ -188,10 +187,7 @@ export class SysLocaleService {
     const langs = await this.sysLangService.findAll();
 
     const deleted = await this.SysLocaleModel.updateMany(
-      {
-        key,
-        deleted: false,
-      },
+      { key },
       { deleted: true },
     );
 
@@ -218,7 +214,6 @@ export class SysLocaleService {
     const deleted = await this.SysLocaleModel.updateMany(
       {
         key: { $in: keyArr },
-        deleted: false,
       },
       { deleted: true },
     );
@@ -261,8 +256,6 @@ export class SysLocaleService {
 
     const result = await this.SysLocaleModel.aggregate<IWalnutResponseListData>(
       [
-        { $match: { deleted: false } },
-
         {
           $group: {
             _id: '$key',

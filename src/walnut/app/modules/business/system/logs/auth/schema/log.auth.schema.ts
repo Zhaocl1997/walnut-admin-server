@@ -1,4 +1,4 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, Schema } from '@nestjs/mongoose';
 import { Schema as MongooseSchema } from 'mongoose';
 import { SysUserModel } from '../../../user/schema/user.schema';
 import { WalnutAbstractModel } from '@/common/model/base.model';
@@ -7,6 +7,7 @@ import {
   AppConstLogAuthType,
   AppConstLogAuthTypeType,
 } from '@/const/decorator/logAuth';
+import { createWalnutSchema } from '@/common/schema/base.schema';
 
 export type SysLogAuthDocument = SysLogAuthModel;
 
@@ -61,4 +62,4 @@ export class SysLogAuthModel extends WalnutAbstractModel {
   type: AppConstLogAuthTypeType;
 }
 
-export const SysLogAuthSchema = SchemaFactory.createForClass(SysLogAuthModel);
+export const SysLogAuthSchema = createWalnutSchema(SysLogAuthModel);
