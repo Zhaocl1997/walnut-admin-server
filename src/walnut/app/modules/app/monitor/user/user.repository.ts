@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { AppInjectModel } from '@/database/database.decorator';
 import { Model } from 'mongoose';
+import { AppInjectModel } from '@/database/database.decorator';
 import { WalnutAbstractRepository } from '@/common/repository/base.respository';
 
 import { AppMonitorUserDTO } from './dto/user.dto';

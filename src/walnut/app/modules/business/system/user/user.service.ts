@@ -37,7 +37,7 @@ export class SysUserService {
     const incomeUser = await this.sysUserModel.findOne(payload);
 
     if (!incomeUser) {
-      _user = await this.createUser(payload);
+      _user = await this.createUser(payload, false);
       await notExistedCallback(_user);
     } else {
       _user = incomeUser;
@@ -151,7 +151,7 @@ export class SysUserService {
   }
 
   // base CRUD
-  async createUser(dto: Partial<SysUserDto>) {
+  async createUser(dto: Partial<SysUserDto>, needEntity = true) {
     const appSetting = await this.cacheService.get(
       AppConstCacheKeys.APP_SETTING,
     );
@@ -159,11 +159,14 @@ export class SysUserService {
     const DEFAULT_PASSWORD = appSetting[AppConstSettingKeys.DEFAULT_PASSWORD];
     const DEFAULT_ROLE = appSetting[AppConstSettingKeys.DEFAULT_ROLE];
 
-    return await this.sysUserRepo.create({
-      ...dto,
-      password: dto.password ?? DEFAULT_PASSWORD,
-      role: dto.role ?? [DEFAULT_ROLE],
-    });
+    return await this.sysUserRepo.create(
+      {
+        ...dto,
+        password: dto.password ?? DEFAULT_PASSWORD,
+        role: dto.role ?? [DEFAULT_ROLE],
+      },
+      needEntity,
+    );
   }
 
   async read(id: string) {

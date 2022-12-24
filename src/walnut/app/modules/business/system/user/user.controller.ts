@@ -37,8 +37,7 @@ export class SysUserController {
   @CreateDecorator()
   @HasPermission(AppConstPermissionUser.CREATE)
   async create(@Body() payload: SysUserDto) {
-    const user = await this.userService.createUser(payload)
-    return new SysUserEntity(user.toObject());
+    return await this.userService.createUser(payload)
   }
 
   @ReadDecorator()

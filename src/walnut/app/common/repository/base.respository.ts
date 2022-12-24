@@ -92,7 +92,10 @@ export abstract class WalnutAbstractRepository<
   /**
    * @description: Base create repo, provide a unique key as second param
    */
-  public async create(dto: DTO | Partial<DTO>): Promise<Entity> {
+  public async create(
+    dto: DTO | Partial<DTO>,
+    needEntity = true,
+  ): Promise<WDocument> {
     if (await this.isExistByUniqueKey(dto)) {
       throw new WalnutExceptionDataExisted(
         typeof this.uniqueKey === 'string'
@@ -105,7 +108,11 @@ export abstract class WalnutAbstractRepository<
 
     await created.save();
 
-    return new this.WalnutEntity(created.toJSON());
+    if (needEntity) {
+      return new this.WalnutEntity(created.toJSON());
+    } else {
+      return created;
+    }
   }
 
   /**
