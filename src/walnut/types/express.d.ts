@@ -13,6 +13,7 @@ declare global {
     userAgent?: IResult;
     os: string;
     browser: string;
+    engine: string
     timezone?: string;
     timestamp?: number;
     language?: string;

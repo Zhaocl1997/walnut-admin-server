@@ -35,6 +35,9 @@ export class UserAgentMiddleware implements NestMiddleware {
       parsedUA.browser.name + ' ' + req.userAgent.browser.version ||
       parsedUA.ua;
 
+    req.engine =
+      parsedUA.engine.name + ' ' + req.userAgent.engine.version || parsedUA.ua;
+
     if (!osList.some((i) => i.match(new RegExp(parsedUA.os.name)))) {
       throw new WalnutExceptionUserAgentOSNotAcceptable();
     }
