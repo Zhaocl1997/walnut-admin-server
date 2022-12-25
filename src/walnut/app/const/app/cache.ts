@@ -8,6 +8,8 @@ export const AppConstCacheKeys = {
   VILLAGE: 'WALNUT_CACHE_AREA_VILLAGE',
 
   APP_SETTING: 'APP_SETTING',
+
+  SOCKET: 'SOCKET_POOL'
 } as const;
 
 export const AppConstCacheType = {
@@ -17,6 +19,7 @@ export const AppConstCacheType = {
   VERIFY_CODE: 'verify-code',
   LOCALES: 'locales',
   AREA: 'area',
+  SOCKET: 'socket'
 } as const;
 
 export type AppConstCacheTypeType = ValueOf<typeof AppConstCacheType>;
