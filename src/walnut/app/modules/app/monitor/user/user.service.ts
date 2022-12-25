@@ -9,6 +9,7 @@ import { WalnutListRequestDTO } from '@/common/dto/list.dto';
 import { AppDayjs } from '@/utils/dayjs';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
+import { SocketService } from '@/socket/socket.service';
 
 @Injectable()
 export class AppMonitorUserService {
@@ -17,6 +18,7 @@ export class AppMonitorUserService {
     private readonly appMonitorUserModel: Model<AppMonitorUserModel>,
     private readonly appMonitorUserRepo: AppMonitorUserRepo,
     private readonly httpService: HttpService,
+    private readonly socketService: SocketService
   ) {}
 
   async initial(req: IWalnutRequest, dto: Partial<AppMonitorUserDTO>) {
@@ -61,6 +63,7 @@ export class AppMonitorUserService {
     await this.appMonitorUserModel.findOneAndUpdate(
       { visitorId: dto.visitorId },
       {
+        auth: true,
         userId: dto.userId,
         userName: dto.userName,
         authTime: AppDayjs().format('YYYY-MM-DD HH:mm:ss'),
@@ -78,6 +81,12 @@ export class AppMonitorUserService {
         authTime: null,
       },
     );
+  }
+
+  async forceQuit(id: string) {
+    const target = await this.appMonitorUserModel.findOne({ _id: id });
+
+    this.socketService.socket.emit(`force/quit/${target.visitorId}`, target.visitorId)
   }
 
   async findAll(params: WalnutListRequestDTO<AppMonitorUserDTO>) {

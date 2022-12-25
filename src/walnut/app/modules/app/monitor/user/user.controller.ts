@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   HttpCode,
   HttpStatus,
   Logger,
@@ -17,6 +18,8 @@ import { WalnutCrudDecorators } from '@/decorators/crud';
 import { WalnutListRequestDTO } from '@/common/dto/list.dto';
 import { AppMonitorUserDTO } from './dto/user.dto';
 import { HasPermission } from '@/decorators/walnut/hasPermission.decorator';
+import { WalnutIdParamDecorator } from '@/decorators/param/objectId';
+import { AppConstPermissionMonitorUser } from '@/const/permissions/monitor/user';
 
 const { ListDecorator } = WalnutCrudDecorators({
   DTO: '',
@@ -31,9 +34,16 @@ export class AppMonitorUserController {
   constructor(private readonly monitorUserService: AppMonitorUserService) {}
 
   @ListDecorator()
-  // @HasPermission(AppConstPermissionUser.LIST)
+  @HasPermission(AppConstPermissionMonitorUser.LIST)
   async findAll(@Body() params: WalnutListRequestDTO<AppMonitorUserDTO>) {
     return await this.monitorUserService.findAll(params);
+  }
+
+  @Delete('force-quit/:id')
+  @HttpCode(HttpStatus.OK)
+  @HasPermission(AppConstPermissionMonitorUser.FORCE_QUIT)
+  async forceQuit(@WalnutIdParamDecorator() id: string) {
+    return await this.monitorUserService.forceQuit(id);
   }
 
   @Post('initial')
@@ -43,6 +53,6 @@ export class AppMonitorUserController {
     @Req() req: IWalnutRequest,
     @Body() data: Partial<AppMonitorUserDTO>,
   ) {
-    await this.monitorUserService.initial(req, data);
+    return await this.monitorUserService.initial(req, data);
   }
 }
