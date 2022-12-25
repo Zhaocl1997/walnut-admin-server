@@ -7,6 +7,8 @@ import { AppMonitorUserRepo } from './user.repository';
 import { AppMonitorUserDTO } from './dto/user.dto';
 import { WalnutListRequestDTO } from '@/common/dto/list.dto';
 import { AppDayjs } from '@/utils/dayjs';
+import { HttpService } from '@nestjs/axios';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class AppMonitorUserService {
@@ -14,29 +16,67 @@ export class AppMonitorUserService {
     @AppInjectModel(AppMonitorUserModel.name)
     private readonly appMonitorUserModel: Model<AppMonitorUserModel>,
     private readonly appMonitorUserRepo: AppMonitorUserRepo,
+    private readonly httpService: HttpService,
   ) {}
 
-  async core(dto: Partial<AppMonitorUserDTO>, req: IWalnutRequest) {
-    const data = {
-      ...dto,
-      ip: req.realIp,
-      location: dto.location && Buffer.from(dto.location, 'base64').toString(),
-      os: req.os,
-      browser: req.browser,
-    };
+  async initial(req: IWalnutRequest, dto: Partial<AppMonitorUserDTO>) {
+    const res = await firstValueFrom(
+      this.httpService.get(`https://ip.useragentinfo.com/json?ip=${dto.ip}`),
+    );
 
-    const target = await this.appMonitorUserModel.findOne({
-      visitorId: dto.visitorId,
-    });
-
-    if (data.auth === true && !target?.authTime) {
-      data.authTime = AppDayjs().format('YYYY-MM-DD HH:mm:ss');
+    if (res.status === 200) {
+      await this.appMonitorUserModel.findOneAndUpdate(
+        { visitorId: dto.visitorId },
+        {
+          ip: res.data.ip,
+          country: res.data.country,
+          province: res.data.province,
+          city: res.data.city,
+          area: res.data.area,
+          isp: res.data.isp,
+          userAgent: req.userAgent.ua,
+          netType: dto.netType,
+          platform: dto.platform,
+          os: req.os,
+          browser: req.browser,
+          vp: dto.vp,
+          sr: dto.sr,
+          device: req.userAgent.device?.vendor ?? null,
+          engine: req.engine,
+          auth: dto.auth,
+        },
+        { upsert: true },
+      );
     }
+  }
 
+  async socketHandler(dto: Partial<AppMonitorUserDTO>) {
     await this.appMonitorUserModel.findOneAndUpdate(
-      { visitorId: data.visitorId },
-      data,
-      { upsert: true },
+      { visitorId: dto.visitorId },
+      dto,
+    );
+  }
+
+  async signin(dto: Partial<AppMonitorUserDTO>) {
+    await this.appMonitorUserModel.findOneAndUpdate(
+      { visitorId: dto.visitorId },
+      {
+        userId: dto.userId,
+        userName: dto.userName,
+        authTime: AppDayjs().format('YYYY-MM-DD HH:mm:ss'),
+      },
+    );
+  }
+
+  async signout(visitorId: string) {
+    await this.appMonitorUserModel.findOneAndUpdate(
+      { visitorId: visitorId },
+      {
+        auth: false,
+        userId: null,
+        userName: null,
+        authTime: null,
+      },
     );
   }
 

@@ -10,13 +10,13 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
-import { PlainBody } from '@/decorators/plainBody.decorator';
 import { JwtAccessGuard } from '@/modules/auth/guards/jwt/jwt-access.guard';
 import { AppMonitorUserService } from './user.service';
 import { Public } from '@/decorators/app/public';
 import { WalnutCrudDecorators } from '@/decorators/crud';
 import { WalnutListRequestDTO } from '@/common/dto/list.dto';
 import { AppMonitorUserDTO } from './dto/user.dto';
+import { HasPermission } from '@/decorators/walnut/hasPermission.decorator';
 
 const { ListDecorator } = WalnutCrudDecorators({
   DTO: '',
@@ -36,22 +36,13 @@ export class AppMonitorUserController {
     return await this.monitorUserService.findAll(params);
   }
 
-  @Post()
+  @Post('initial')
   @HttpCode(HttpStatus.OK)
   @Public()
-  async monitor(@Req() req: IWalnutRequest, @Body() data) {
-    await this.monitorUserService.core(
-      {
-        visitorId: data.visitorId,
-        auth: data?.auth ?? false,
-        focus: data?.focus ?? false,
-        left: data?.left ?? true,
-        currentRouter: data?.currentRouter,
-        userId: data?.userId,
-        userName: data?.userName ?? '',
-        location: data?.location,
-      },
-      req,
-    );
+  async monitor(
+    @Req() req: IWalnutRequest,
+    @Body() data: Partial<AppMonitorUserDTO>,
+  ) {
+    await this.monitorUserService.initial(req, data);
   }
 }

@@ -113,6 +113,11 @@ export class SocketGateway
     await this.monitorUserService.socketHandler(payload);
   }
 
+  @SubscribeMessage('signin')
+  async signinHandler(@MessageBody() payload: AppMonitorUserDTO) {
+    await this.monitorUserService.signin(payload);
+  }
+
   @SubscribeMessage('signout')
   async signoutHandler(@MessageBody() visitorId: string) {
     await this.monitorUserService.signout(visitorId);

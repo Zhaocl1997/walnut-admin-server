@@ -16,13 +16,46 @@ export class AppMonitorUserDTO extends WalnutAbstractDTO {
   readonly ip: string;
 
   @StringFieldOptional()
-  readonly location: string;
+  readonly country: string;
+
+  @StringFieldOptional()
+  readonly province: string;
+
+  @StringFieldOptional()
+  readonly city: string;
+
+  @StringFieldOptional()
+  readonly area: string;
+
+  @StringFieldOptional()
+  readonly isp: string;
+
+  @StringFieldOptional()
+  readonly userAgent: string;
+
+  @StringFieldOptional()
+  readonly netType: string;
+
+  @StringFieldOptional()
+  readonly platform: string;
 
   @StringFieldOptional()
   readonly os: string;
 
   @StringFieldOptional()
   readonly browser: string;
+
+  @StringFieldOptional()
+  readonly vp: string;
+
+  @StringFieldOptional()
+  readonly sr: string;
+
+  @StringFieldOptional()
+  readonly device: string;
+
+  @StringFieldOptional()
+  readonly engine: string;
 
   @BooleanFieldOptional()
   readonly auth: boolean;

@@ -23,11 +23,33 @@ export class AppMonitorUserEntity extends WalnutAbstractEntity {
 
   ip: string;
 
-  location: string;
+  country: string;
+
+  province: string;
+
+  city: string;
+
+  area: string;
+
+  isp: string;
+
+  userAgent: string;
+
+  netType: string;
+
+  platform: string;
 
   os: string;
 
   browser: string;
+
+  vp: string;
+
+  sr: string;
+
+  device: string;
+
+  engine: string;
 
   auth: boolean;
 
@@ -36,6 +58,9 @@ export class AppMonitorUserEntity extends WalnutAbstractEntity {
   left: boolean;
 
   currentRouter: string;
+
+  @TransformToFormattedTime()
+  authTime: string
 
   @TransformToFormattedTime()
   lastActiveAt: Date;
