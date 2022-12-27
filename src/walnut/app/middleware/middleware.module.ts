@@ -15,6 +15,7 @@ import { LocationMiddleware } from './src/location.middleware';
 import { LoggerMiddleware } from './src/logger.middleware';
 import { ResponseTimeMiddleware } from './src/responseTime.middleware';
 import { SessionMiddleware } from './src/session.middleware';
+import { SleepMiddleware } from './src/sleep.middleware';
 import { TimestampMiddleware } from './src/timestamp.middleware';
 import { TimezoneMiddleware } from './src/timezone.middleware';
 import { UserAgentMiddleware } from './src/user-agent.middleware';
@@ -48,6 +49,7 @@ export class AppMiddlewareModule implements NestModule {
         IpMiddleware,
 
         ErrorMiddleware,
+        SleepMiddleware,
         LoggerMiddleware,
       )
       .forRoutes('*');

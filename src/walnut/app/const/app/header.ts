@@ -11,5 +11,6 @@ export const AppConstHeaders = {
   PERMISSION: 'x-scoped-permission',
   FINGERPRINT: 'x-fingerprint',
   LOCATION: 'X-Location',
-  ERROR: 'X-Error'
+  ERROR: 'X-Error',
+  SLEEP: 'X-Sleep'
 } as const;
