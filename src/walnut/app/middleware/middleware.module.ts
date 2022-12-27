@@ -5,6 +5,7 @@ import { CompressionMiddleware } from './src/compression.middleware';
 import { CookieParserMiddleware } from './src/cookieParser.middleware';
 import { CorsMiddleware } from './src/cors.middleware';
 import { CsurfMiddleware } from './src/csurf.middleware';
+import { ErrorMiddleware } from './src/error.middleware';
 import { FingerprintMiddleware } from './src/fingerprint.middleware';
 import { HelmetMiddleware } from './src/helmet.middleware';
 import { IdMiddleware } from './src/id.middleware';
@@ -46,6 +47,7 @@ export class AppMiddlewareModule implements NestModule {
         UserAgentMiddleware,
         IpMiddleware,
 
+        ErrorMiddleware,
         LoggerMiddleware,
       )
       .forRoutes('*');
