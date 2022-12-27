@@ -5,7 +5,7 @@ import {
   Logger,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { redisStore } from 'cache-manager-redis-store';
+import  * as redisStore from 'cache-manager-redis-store';
 import type { RedisClientOptions } from 'redis';
 
 @Injectable()
@@ -28,7 +28,6 @@ export class CacheConfigService implements CacheOptionsFactory {
       ttl: this.configService.get<number>('app.cache.ttl'),
       max: this.configService.get<number>('app.cache.max'),
 
-      // @ts-ignore
       store: redisStore,
       url: redisUrl,
     };

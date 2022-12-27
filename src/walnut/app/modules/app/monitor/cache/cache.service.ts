@@ -1,6 +1,6 @@
 import { AppConstCacheType, AppConstCacheTypeType } from '@/const/app/cache';
 import { CACHE_MANAGER, Inject, Injectable } from '@nestjs/common';
-import { Cache, StoreConfig } from 'cache-manager';
+import { Cache, CachingConfig } from 'cache-manager';
 
 interface MyCacheContent<T = any> {
   v: T;
@@ -18,7 +18,7 @@ interface MyCacheContent<T = any> {
   t: AppConstCacheTypeType;
 }
 
-interface MyCacheOptions extends StoreConfig {
+interface MyCacheOptions extends CachingConfig {
   /**
    * @description start time timestamp
    */
@@ -52,7 +52,7 @@ export class AppCacheService {
       t: options.t,
     };
 
-    return await this.cacheManager.set(cacheKey, val, val.ttl);
+    return await this.cacheManager.set(cacheKey, val, { ttl: val.ttl });
   }
 
   // custom get

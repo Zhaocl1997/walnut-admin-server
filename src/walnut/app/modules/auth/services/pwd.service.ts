@@ -40,12 +40,12 @@ export class AuthPwdService {
     );
 
     // set permissions into cache
-    this.cacheService.set(`P_${payload.userId}`, permissions, {
+    await this.cacheService.set(`P_${payload.userId}`, permissions, {
       ttl: CACHE_TTL,
       t: AppConstCacheType.AUTH_PERMISSIONS,
     });
     // set roleNames into cache
-    this.cacheService.set(`R_${payload.userId}`, payload.roleNames, {
+    await this.cacheService.set(`R_${payload.userId}`, payload.roleNames, {
       ttl: CACHE_TTL,
       t: AppConstCacheType.AUTH_ROLE_NAMES,
     });
@@ -58,9 +58,9 @@ export class AuthPwdService {
    */
   async signout(payload: IWalnutTokenPayload) {
     //  remove permissions from cache
-    this.cacheService.del(`P_${payload.userId}`);
+    await this.cacheService.del(`P_${payload.userId}`);
     //  remove roleNames from cache
-    this.cacheService.del(`R_${payload.userId}`);
+    await this.cacheService.del(`R_${payload.userId}`);
 
     return await this.userService.removeRefreshToken(payload.userId);
   }
