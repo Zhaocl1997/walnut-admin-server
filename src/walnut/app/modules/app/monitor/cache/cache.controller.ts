@@ -92,7 +92,7 @@ export class AppCacheController {
 
     const { sort, query, page } = params;
 
-    if (sort) {
+    if (sort.length !== 0) {
       // sort
       arr = orderBy(
         arr,
@@ -104,11 +104,15 @@ export class AppCacheController {
     if (query) {
       // filter
       Object.entries(query).map(([key, value]) => {
-        arr = arr.filter((i) =>
-          key && value && Array.isArray(value)
-            ? value.includes(i[key.toLowerCase()].toLowerCase())
-            : i[key.toLowerCase()].toLowerCase().includes(value),
-        );
+        arr = arr.filter((i) => {
+          if (key && value) {
+            return Array.isArray(value)
+              ? value.includes(i.key[key.toLowerCase()].toLowerCase())
+              : i.key[key.toLowerCase()].toLowerCase().includes(value);
+          } else {
+            return true
+          }
+        });
       });
     }
 

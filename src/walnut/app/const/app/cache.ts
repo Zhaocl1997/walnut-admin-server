@@ -19,7 +19,6 @@ export const AppConstCacheType = {
   VERIFY_CODE: 'verify-code',
   LOCALES: 'locales',
   AREA: 'area',
-  SOCKET: 'socket'
 } as const;
 
 export type AppConstCacheTypeType = ValueOf<typeof AppConstCacheType>;

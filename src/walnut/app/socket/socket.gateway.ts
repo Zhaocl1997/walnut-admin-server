@@ -54,7 +54,7 @@ export class SocketGateway
         cache.splice(index, 1);
 
         await this.cacheService.set(AppConstCacheKeys.SOCKET, cache, {
-          t: AppConstCacheType.SOCKET,
+          t: AppConstCacheType.BUILT_IN,
           ttl: 0,
         });
       }
@@ -87,7 +87,7 @@ export class SocketGateway
       }
 
       await this.cacheService.set(AppConstCacheKeys.SOCKET, cache, {
-        t: AppConstCacheType.SOCKET,
+        t: AppConstCacheType.BUILT_IN,
         ttl: 0,
       });
     } else {
@@ -95,7 +95,7 @@ export class SocketGateway
         AppConstCacheKeys.SOCKET,
         [[fingerprint, client.id]],
         {
-          t: AppConstCacheType.SOCKET,
+          t: AppConstCacheType.BUILT_IN,
           ttl: 0,
         },
       );
