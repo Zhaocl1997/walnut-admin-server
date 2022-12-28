@@ -11860,3 +11860,39 @@
     "createdAt" : ISODate("2022-12-15T06:58:58.104+0000"), 
     "updatedAt" : ISODate("2022-12-15T06:58:58.104+0000")
 }
+{ 
+    "_id" : ObjectId("63a15db03ae644fe27f9dae7"), 
+    "deleted" : false, 
+    "langId" : ObjectId("6190a3ab006f39bf8a155a3a"), 
+    "key" : "app.base.demonstrate", 
+    "value" : "Only for demonstrate.", 
+    "createdAt" : ISODate("2022-12-20T07:01:04.494+0000"), 
+    "updatedAt" : ISODate("2022-12-20T07:01:04.494+0000")
+}
+{ 
+    "_id" : ObjectId("63a15db03ae644fe27f9dae8"), 
+    "deleted" : false, 
+    "langId" : ObjectId("6190a410006f39bf8a155a46"), 
+    "key" : "app.base.demonstrate", 
+    "value" : "只是一个演示", 
+    "createdAt" : ISODate("2022-12-20T07:01:04.494+0000"), 
+    "updatedAt" : ISODate("2022-12-20T07:01:04.494+0000")
+}
+{ 
+    "_id" : ObjectId("63abb229f7896f278d71bfb5"), 
+    "deleted" : false, 
+    "langId" : ObjectId("6190a3ab006f39bf8a155a3a"), 
+    "key" : "sys.menu.demo.vendor.mindmap", 
+    "value" : "Mind Map", 
+    "createdAt" : ISODate("2022-12-28T03:04:09.106+0000"), 
+    "updatedAt" : ISODate("2022-12-28T03:04:09.106+0000")
+}
+{ 
+    "_id" : ObjectId("63abb229f7896f278d71bfb6"), 
+    "deleted" : false, 
+    "langId" : ObjectId("6190a410006f39bf8a155a46"), 
+    "key" : "sys.menu.demo.vendor.mindmap", 
+    "value" : "思维导图", 
+    "createdAt" : ISODate("2022-12-28T03:04:09.107+0000"), 
+    "updatedAt" : ISODate("2022-12-28T03:04:09.107+0000")
+}

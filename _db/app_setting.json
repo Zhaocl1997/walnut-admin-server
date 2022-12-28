@@ -63,7 +63,7 @@
     "deleted" : false, 
     "settingName" : "认证 - 短信", 
     "settingKey" : "app.auth.phone", 
-    "settingValue" : "0", 
+    "settingValue" : "1", 
     "createdBy" : ObjectId("5fc63f5640cad739606d1700"), 
     "createdAt" : ISODate("2022-09-19T06:06:58.619+0000"), 
     "updatedAt" : ISODate("2022-10-09T09:27:12.620+0000"), 
@@ -135,12 +135,12 @@
     "deleted" : false, 
     "settingName" : "验证码 - 短信 - 发送", 
     "settingKey" : "app.verify.phone.send", 
-    "settingValue" : "0", 
+    "settingValue" : "1", 
     "settingType" : "verifyCode", 
     "remark" : "1 开启 0 关闭\n发送验证码的接口控制", 
     "createdBy" : ObjectId("5fc63f5640cad739606d1700"), 
     "createdAt" : ISODate("2022-09-30T03:16:17.224+0000"), 
-    "updatedAt" : ISODate("2022-09-30T03:18:00.400+0000")
+    "updatedAt" : ISODate("2022-12-23T08:19:06.518+0000")
 }
 { 
     "_id" : ObjectId("6342915d83c762348e30f6f8"), 
