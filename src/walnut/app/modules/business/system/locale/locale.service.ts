@@ -88,12 +88,12 @@ export class SysLocaleService {
    */
   async create(dto: SysLocaleDto) {
     const langs = await this.sysLangService.findAll();
-
+   
     const keys = Object.keys(dto);
 
-    const isExist = await this.SysLocaleModel.find({
+    const isExist = await this.SysLocaleModel.findOne({
       key: dto.key,
-    });
+    });  
 
     if (isExist) {
       throw new WalnutExceptionDataExisted('key');
