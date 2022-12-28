@@ -61,6 +61,9 @@ export default registerAs('middleware', () => ({
       AppConstHeaders.REPO_VERSION,
       AppConstHeaders.LOCATION,
       AppConstHeaders.FINGERPRINT,
+      AppConstHeaders.LOCATION,
+      AppConstHeaders.ERROR,
+      AppConstHeaders.SLEEP,
     ],
   },
 
