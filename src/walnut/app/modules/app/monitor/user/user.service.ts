@@ -11,6 +11,7 @@ import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 import { SocketService } from '@/socket/socket.service';
 import { AppMonitorUserListEntity } from './entity/list.entity';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AppMonitorUserService {
@@ -19,8 +20,9 @@ export class AppMonitorUserService {
     private readonly appMonitorUserModel: Model<AppMonitorUserModel>,
     private readonly appMonitorUserRepo: AppMonitorUserRepo,
     private readonly httpService: HttpService,
-    private readonly socketService: SocketService
-  ) {}
+    private readonly socketService: SocketService,
+    private readonly configService: ConfigService,
+  ) { }
 
   async initial(req: IWalnutRequest, dto: Partial<AppMonitorUserDTO>) {
     const res = await firstValueFrom(
@@ -87,7 +89,10 @@ export class AppMonitorUserService {
   async forceQuit(id: string) {
     const target = await this.appMonitorUserModel.findOne({ _id: id });
 
-    this.socketService.socket.emit(`force/quit/${target.visitorId}`, target.visitorId)
+    this.socketService.socket.emit(
+      `force/quit/${target.visitorId}`,
+      target.visitorId,
+    );
   }
 
   async read(id: string) {
@@ -95,6 +100,26 @@ export class AppMonitorUserService {
   }
 
   async findAll(params: WalnutListRequestDTO<AppMonitorUserDTO>) {
-    return await this.appMonitorUserRepo.list(params, [], AppMonitorUserListEntity);
+    return await this.appMonitorUserRepo.list(
+      params,
+      [],
+      AppMonitorUserListEntity,
+    );
+  }
+
+  // used for bull task
+  // change the auth state based on refresh expire time
+  async updateAuthState() {
+    const expireSeconds = parseInt(this.configService.get<string>(
+      'jwt.refresh.expire',
+    ));
+
+    const usersWhoseAuthStillTrue = await this.appMonitorUserModel.find({ auth: true }).select('visitorId authTime')
+
+    const usersNeedToSignout = usersWhoseAuthStillTrue.filter(i => AppDayjs(i.authTime).add(expireSeconds, 'second').isBefore(AppDayjs()))
+
+    if (usersNeedToSignout.length !== 0) {
+      await Promise.all(usersNeedToSignout.map(i => this.signout(i.visitorId)))
+    }
   }
 }
