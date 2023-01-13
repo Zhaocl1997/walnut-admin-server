@@ -84,7 +84,7 @@ async function bootstrap() {
   );
 
   /* global guards */
-  app.useGlobalGuards(new FingerprintGuard(cacheService))
+  app.useGlobalGuards(new FingerprintGuard(reflector, cacheService))
 
   /* global pipes */
   app.useGlobalPipes(
