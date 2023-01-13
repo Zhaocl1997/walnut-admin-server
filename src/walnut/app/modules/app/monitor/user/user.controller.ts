@@ -21,7 +21,7 @@ import { HasPermission } from '@/decorators/walnut/hasPermission.decorator';
 import { WalnutIdParamDecorator } from '@/decorators/param/objectId';
 import { AppConstPermissionMonitorUser } from '@/const/permissions/monitor/user';
 
-const { ListDecorator } = WalnutCrudDecorators({
+const { ListDecorator, ReadDecorator } = WalnutCrudDecorators({
   DTO: '',
 });
 
@@ -37,6 +37,12 @@ export class AppMonitorUserController {
   @HasPermission(AppConstPermissionMonitorUser.LIST)
   async findAll(@Body() params: WalnutListRequestDTO<AppMonitorUserDTO>) {
     return await this.monitorUserService.findAll(params);
+  }
+
+  @ReadDecorator()
+  @HasPermission(AppConstPermissionMonitorUser.READ)
+  async read(@WalnutIdParamDecorator() id: string) {
+    return await this.monitorUserService.read(id);
   }
 
   @Delete('force-quit/:id')

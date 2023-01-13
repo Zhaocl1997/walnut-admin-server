@@ -215,7 +215,8 @@ export abstract class WalnutAbstractRepository<
    */
   public async list(
     params: WalnutListRequestDTO<DTO>,
-    extraPipeline: PipelineStage.FacetPipelineStage[] = [],
+    customPipeline: PipelineStage.FacetPipelineStage[] = [],
+    customEntity?: any
   ): Promise<WalnutListResponseDTO<DTO>> {
     // get params
     const baseParams = WalnutGetListParams<DTO>(params);
@@ -223,7 +224,7 @@ export abstract class WalnutAbstractRepository<
     // get aggregate params througn baseParams
     const { dataParams, totalParams } = WalnutGetAggregateParams(
       baseParams,
-      extraPipeline,
+      customPipeline,
     );
 
     const data = await this.WalnutModel.aggregate<DTO>(dataParams);
@@ -234,7 +235,7 @@ export abstract class WalnutAbstractRepository<
 
     return {
       total: total.length !== 0 ? total[0].total : 0,
-      data: data.map((i) => new this.WalnutEntity(i)),
+      data: data.map((i) => customEntity ? new customEntity(i) : new this.WalnutEntity(i)),
     };
   }
 }

@@ -10,6 +10,7 @@ import { AppDayjs } from '@/utils/dayjs';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 import { SocketService } from '@/socket/socket.service';
+import { AppMonitorUserListEntity } from './entity/list.entity';
 
 @Injectable()
 export class AppMonitorUserService {
@@ -89,7 +90,11 @@ export class AppMonitorUserService {
     this.socketService.socket.emit(`force/quit/${target.visitorId}`, target.visitorId)
   }
 
+  async read(id: string) {
+    return await this.appMonitorUserRepo.readById(id);
+  }
+
   async findAll(params: WalnutListRequestDTO<AppMonitorUserDTO>) {
-    return await this.appMonitorUserRepo.list(params);
+    return await this.appMonitorUserRepo.list(params, [], AppMonitorUserListEntity);
   }
 }
