@@ -15,6 +15,8 @@ import { WalnutSuccessResponseInterceptor } from './walnut/app/interceptors/resp
 import { WalnutExceptionDataInvalid } from './walnut/app/exceptions/bussiness/data';
 import { join } from 'path';
 import { SocketIoAdapter } from '@/socket/socket.adapter';
+import { FingerprintGuard } from '@/guard/fingerprint.guard';
+import { AppCacheService } from '@/modules/app/monitor/cache/cache.service';
 
 // TODO events change permission & role guard
 // TODO task schedule
@@ -49,6 +51,7 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {});
 
   const configService = app.get(ConfigService);
+  const cacheService = app.get(AppCacheService)
   const APIPrefix = configService.get('app.api.prefix');
   const APIVersion = configService.get('app.api.version');
 
@@ -79,6 +82,9 @@ async function bootstrap() {
     new WalnutSuccessResponseInterceptor(),
     new ClassSerializerInterceptor(reflector),
   );
+
+  /* global guards */
+  app.useGlobalGuards(new FingerprintGuard(cacheService))
 
   /* global pipes */
   app.useGlobalPipes(

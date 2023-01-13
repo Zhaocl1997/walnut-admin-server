@@ -9,7 +9,7 @@ export const AppConstCacheKeys = {
 
   APP_SETTING: 'APP_SETTING',
 
-  SOCKET: 'SOCKET_POOL'
+  SOCKET_POOL: 'SOCKET_POOL'
 } as const;
 
 export const AppConstCacheType = {

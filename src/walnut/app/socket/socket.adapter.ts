@@ -5,8 +5,8 @@ import { ConfigService } from '@nestjs/config';
 
 export class SocketIoAdapter extends IoAdapter {
   constructor(
-    private app: INestApplicationContext,
-    private configService: ConfigService,
+    private readonly app: INestApplicationContext,
+    private readonly configService: ConfigService,
   ) {
     super(app);
   }

@@ -44,7 +44,7 @@ export class SocketGateway
     const fingerprint = client.handshake.query['fingerprint'] as string;
 
     const cache = await this.cacheService.get<[string, string][]>(
-      AppConstCacheKeys.SOCKET,
+      AppConstCacheKeys.SOCKET_POOL,
     );
 
     if (cache && cache.length !== 0) {
@@ -53,7 +53,7 @@ export class SocketGateway
       if (index !== -1) {
         cache.splice(index, 1);
 
-        await this.cacheService.set(AppConstCacheKeys.SOCKET, cache, {
+        await this.cacheService.set(AppConstCacheKeys.SOCKET_POOL, cache, {
           t: AppConstCacheType.BUILT_IN,
           ttl: 0,
         });
@@ -74,7 +74,7 @@ export class SocketGateway
     const fingerprint = client.handshake.query['fingerprint'] as string;
 
     const cache = await this.cacheService.get<[string, string][]>(
-      AppConstCacheKeys.SOCKET,
+      AppConstCacheKeys.SOCKET_POOL,
     );
 
     if (cache && cache.length !== 0) {
@@ -86,13 +86,13 @@ export class SocketGateway
         cache[index] = [fingerprint, client.id];
       }
 
-      await this.cacheService.set(AppConstCacheKeys.SOCKET, cache, {
+      await this.cacheService.set(AppConstCacheKeys.SOCKET_POOL, cache, {
         t: AppConstCacheType.BUILT_IN,
         ttl: 0,
       });
     } else {
       await this.cacheService.set(
-        AppConstCacheKeys.SOCKET,
+        AppConstCacheKeys.SOCKET_POOL,
         [[fingerprint, client.id]],
         {
           t: AppConstCacheType.BUILT_IN,
