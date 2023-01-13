@@ -8,6 +8,8 @@ export const AppConstLogOperateAction = {
   DELETE_MANY: 'DELETE_MANY',
   IMPORT: 'IMPORT',
   EXPORT: 'EXPORT',
+
+  FORCE_QUIT: 'FORCE_QUIT'
 } as const;
 
 export const AppConstLogOperateTitle = {
@@ -22,7 +24,9 @@ export const AppConstLogOperateTitle = {
   LOG_AUTH: '登录/注册日志',
 
   APP_SETTING: '应用设置',
-  APP_CACHE: '应用缓存'
+  APP_CACHE: '应用缓存',
+
+  APP_MONITOR_USER: '用户监控'
 } as const;
 
 export const AppConstLogOperateMeta = {

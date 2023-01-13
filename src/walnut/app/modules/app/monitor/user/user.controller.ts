@@ -20,6 +20,8 @@ import { AppMonitorUserDTO } from './dto/user.dto';
 import { HasPermission } from '@/decorators/walnut/hasPermission.decorator';
 import { WalnutIdParamDecorator } from '@/decorators/param/objectId';
 import { AppConstPermissionMonitorUser } from '@/const/permissions/monitor/user';
+import { LogOperateDecorator } from '@/decorators/walnut/log.operate.decorator';
+import { AppConstLogOperateAction, AppConstLogOperateTitle } from '@/const/decorator/logOperate';
 
 const { ListDecorator, ReadDecorator } = WalnutCrudDecorators({
   DTO: '',
@@ -31,7 +33,7 @@ const { ListDecorator, ReadDecorator } = WalnutCrudDecorators({
 export class AppMonitorUserController {
   private readonly logger = new Logger('Monitor - User');
 
-  constructor(private readonly monitorUserService: AppMonitorUserService) {}
+  constructor(private readonly monitorUserService: AppMonitorUserService) { }
 
   @ListDecorator()
   @HasPermission(AppConstPermissionMonitorUser.LIST)
@@ -48,6 +50,7 @@ export class AppMonitorUserController {
   @Delete('force-quit/:id')
   @HttpCode(HttpStatus.OK)
   @HasPermission(AppConstPermissionMonitorUser.FORCE_QUIT)
+  @LogOperateDecorator({ title: AppConstLogOperateTitle.APP_MONITOR_USER, action: AppConstLogOperateAction.FORCE_QUIT })
   async forceQuit(@WalnutIdParamDecorator() id: string) {
     return await this.monitorUserService.forceQuit(id);
   }
@@ -58,7 +61,7 @@ export class AppMonitorUserController {
   async monitor(
     @Req() req: IWalnutRequest,
     @Body() data: Partial<AppMonitorUserDTO>,
-  ) {
+  ) {   
     return await this.monitorUserService.initial(req, data);
   }
 }

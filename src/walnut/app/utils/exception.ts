@@ -17,8 +17,6 @@ export const WalnutResponseExceptioneHandler = (
   e: HttpException,
 ): IWalnutResponseBase => {
   const mongoError = ['MongoServerError', Error.ValidationError.name];
-
-  console.log(e);
   
   // a mongo server error
   if (mongoError.includes(e.name)) {

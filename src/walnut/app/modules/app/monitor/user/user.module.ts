@@ -10,6 +10,7 @@ import { AppMonitorUserController } from './user.controller';
 import { AppMonitorUserService } from './user.service';
 import { AppMonitorUserRepo } from './user.repository';
 import { HttpModule } from '@nestjs/axios';
+import { SysLogOperateModule } from '@/modules/business/system/logs/operate/log.module';
 
 @Module({
   imports: [
@@ -17,7 +18,8 @@ import { HttpModule } from '@nestjs/axios';
       [{ name: AppMonitorUserModel.name, schema: AppMonitorUserSchema }],
       AppConstDatabaseConnectionName.PRIMARY,
     ),
-    HttpModule
+    HttpModule,
+    SysLogOperateModule
   ],
   controllers: [AppMonitorUserController],
   providers: [AppMonitorUserService, AppMonitorUserRepo],
