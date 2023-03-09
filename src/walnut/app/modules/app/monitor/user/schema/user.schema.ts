@@ -12,7 +12,7 @@ export type AppMonitorUserDocument = AppMonitorUserModel;
   collection: AppConstCollectionName.USER_MONITOR,
   versionKey: false,
   timestamps: {
-    createdAt: true,
+    createdAt: 'firstVisitAt',
     updatedAt: 'lastActiveAt',
   },
 })

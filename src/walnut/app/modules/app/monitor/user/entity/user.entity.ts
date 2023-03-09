@@ -1,4 +1,3 @@
-import { Exclude } from 'class-transformer';
 import { Schema } from 'mongoose';
 
 import { WalnutAbstractEntity } from '@/common/entity/base.entity';
@@ -15,7 +14,6 @@ export class AppMonitorUserEntity extends WalnutAbstractEntity {
 
   visitorId: string;
 
-  @Exclude()
   @TransformObjectIdToStringId()
   userId: Schema.Types.ObjectId;
 
@@ -61,6 +59,9 @@ export class AppMonitorUserEntity extends WalnutAbstractEntity {
 
   @TransformToFormattedTime()
   authTime: string
+
+  @TransformToFormattedTime()
+  firstVisitAt: Date;
 
   @TransformToFormattedTime()
   lastActiveAt: Date;
