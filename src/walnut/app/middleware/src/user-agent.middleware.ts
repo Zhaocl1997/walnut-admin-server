@@ -29,11 +29,13 @@ export class UserAgentMiddleware implements NestMiddleware {
 
     req.userAgent = parsedUA;
 
-    req.os = parsedUA.os.name + ' ' + req.userAgent.os.version || parsedUA.ua;
+    req.os = parsedUA.os.name
+      ? parsedUA.os.name + ' ' + req.userAgent.os.version
+      : parsedUA.ua;
 
-    req.browser =
-      parsedUA.browser.name + ' ' + req.userAgent.browser.version ||
-      parsedUA.ua;
+    req.browser = parsedUA.browser.name
+      ? parsedUA.browser.name + ' ' + req.userAgent.browser.version
+      : parsedUA.ua;
 
     req.engine =
       parsedUA.engine.name + ' ' + req.userAgent.engine.version || parsedUA.ua;
