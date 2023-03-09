@@ -19,8 +19,6 @@ import { FingerprintGuard } from '@/guard/fingerprint.guard';
 import { AppCacheService } from '@/modules/app/monitor/cache/cache.service';
 
 // TODO events change permission & role guard
-// TODO task schedule
-// TODO sse
 // TODO remove enum, use as const
 // https://blog.bitsrc.io/difference-between-middleware-interceptor-and-filter-in-the-nest-js-ecosystem-c71fb3ba32f6
 

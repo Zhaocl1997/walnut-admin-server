@@ -33,9 +33,9 @@ export class JwtRefreshTokenStrategy extends PassportStrategy(
     const refreshToken = request?.body.refreshToken;
 
     // just check refresh token
-    await this.userService.getIfRefreshTokenMatched(
-      refreshToken,
+    await this.userService.checkUserRefreshToken(
       payload.userId,
+      refreshToken,
     );
 
     return {

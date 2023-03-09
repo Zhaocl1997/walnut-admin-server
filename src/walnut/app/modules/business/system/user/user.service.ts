@@ -9,9 +9,13 @@ import { SysUserRepository } from './user.repository';
 import { SysUserDto } from './dto/user.dto';
 import { WalnutListRequestDTO } from '@/common/dto/list.dto';
 import { SysRoleDocument } from '../role/schema/role.schema';
-import { WalnutExceptionRefreshTokenExpired } from '@/exceptions/bussiness/auth';
-import { AppCacheService } from '@/modules/app/monitor/cache/cache.service';
-import { AppConstCacheKeys, AppConstSettingKeys } from '@/const/app/cache';
+import {
+  WalnutExceptionPassNotValid,
+  WalnutExceptionRefreshTokenExpired,
+} from '@/exceptions/bussiness/auth';
+import { RequestEncryption } from '@/utils/vendor/crypto';
+import { ConfigService } from '@nestjs/config';
+import { AppCacheCustomService } from '@/modules/app/monitor/cache/cache.custom';
 
 @Injectable()
 export class SysUserService {
@@ -19,13 +23,17 @@ export class SysUserService {
     @AppInjectModel(SysUserModel.name)
     private readonly sysUserModel: Model<SysUserDocument>,
     private readonly sysUserRepo: SysUserRepository,
-    private readonly cacheService: AppCacheService,
+    private readonly cacheSerice: AppCacheCustomService,
+    private readonly configService: ConfigService,
   ) {}
 
   async findUser(payload: Partial<SysUserDto>) {
     return await this.sysUserModel.findOne(payload);
   }
 
+  /**
+   * @description used for PASSWORD/EMIAL/PHONE/OAUTH user find and return roleIds/roleNames
+   */
   async insertUserIfNotExisted(
     payload: Partial<SysUserDto>,
     notExistedCallback: (
@@ -86,9 +94,55 @@ export class SysUserService {
   }
 
   /**
+   * @description compare user password
+   */
+  async compareEncryptedUserPassword(payload: string, original: string) {
+    // local password check password is valid or not
+    // decrypt the password and compare
+    const key = this.configService.get<string>('crypto.request.key');
+    const iv = this.configService.get<string>('crypto.request.iv');
+
+    const decryptedPassword = RequestEncryption.decrypt(payload, key, iv);
+
+    const isPassValid = await compare(decryptedPassword, original);
+
+    // password invalid
+    if (!isPassValid) {
+      throw new WalnutExceptionPassNotValid();
+    }
+  }
+
+  /**
+   * @description update user password, through save hook in user schema
+   */
+  async updateUserPassword(userId: string, newPass: string) {
+    const user = await this.getUserByCondition({ _id: userId });
+
+    user.password = newPass;
+
+    await user.save();
+
+    return true
+  }
+
+  /**
+   * @description reset user password to the default, which is fetch from
+   */
+  async resetUserPasswordToDefault(userId: string) {
+    const user = await this.getUserByCondition({ _id: userId });
+    const DEFAULT_PASSWORD = await this.cacheSerice.getDefaultPassword();
+
+    user.password = DEFAULT_PASSWORD;
+
+    await user.save();
+
+    return true
+  }
+
+  /**
    * @description set hashed refresh token into db
    */
-  async getIfRefreshTokenMatched(refreshToken: string, userId: string) {
+  async checkUserRefreshToken(userId: string, refreshToken: string) {
     const user = await this.getUserByCondition({ _id: userId });
 
     const isRefreshTokenMatching = await compare(
@@ -152,12 +206,8 @@ export class SysUserService {
 
   // base CRUD
   async createUser(dto: Partial<SysUserDto>, needEntity = true) {
-    const appSetting = await this.cacheService.get(
-      AppConstCacheKeys.APP_SETTING,
-    );
-
-    const DEFAULT_PASSWORD = appSetting[AppConstSettingKeys.DEFAULT_PASSWORD];
-    const DEFAULT_ROLE = appSetting[AppConstSettingKeys.DEFAULT_ROLE];
+    const DEFAULT_PASSWORD = await this.cacheSerice.getDefaultPassword();
+    const DEFAULT_ROLE = await this.cacheSerice.getDefaultRole();
 
     return await this.sysUserRepo.create(
       {
@@ -186,6 +236,15 @@ export class SysUserService {
   }
 
   async findAll(params: WalnutListRequestDTO<SysUserDto>) {
-    return await this.sysUserRepo.list(params);
+    return await this.sysUserRepo.list(params, [
+      {
+        $project: {
+          userName: 1,
+          status: 1,
+          createdAt: 1,
+          updatedAt: 1,
+        },
+      },
+    ]);
   }
 }

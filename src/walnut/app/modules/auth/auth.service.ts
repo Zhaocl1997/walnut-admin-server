@@ -1,15 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { MergeType } from 'mongoose';
-import { compare } from 'bcrypt';
 
 import { SysUserService } from '../business/system/user/user.service';
 import {
-  WalnutExceptionPassNotValid,
   WalnutExceptionUserBannedToSignin,
   WalnutExceptionUserNotFound,
 } from '../../exceptions/bussiness/auth';
-import { RequestEncryption } from '../../utils/vendor/crypto';
 import { AppPermissionService } from '../shared/permission/permission.service';
 
 import { SysUserDocument } from '@/modules/business/system/user/schema/user.schema';
@@ -84,23 +81,8 @@ export class AuthService {
         userName: payloadName,
       });
 
-    // local password check password is valid or not
-    // decrypt the password and compare
-    const key = this.configService.get<string>('crypto.request.key');
-    const iv = this.configService.get<string>('crypto.request.iv');
-
-    try {
-      const decryptedPassword = RequestEncryption.decrypt(pass, key, iv);
-
-      const isPassValid = await compare(decryptedPassword, user.password);
-
-      // password invalid
-      if (!isPassValid) {
-        throw new WalnutExceptionPassNotValid();
-      }
-    } catch {
-      throw new WalnutExceptionPassNotValid();
-    }
+    // validate the encrypted password
+    await this.userService.compareEncryptedUserPassword(pass, user.password);
 
     // last step to check whether user is banned ot user's all role is banned
     return await this.checkUserStatus({ user, roleIds, roleNames });

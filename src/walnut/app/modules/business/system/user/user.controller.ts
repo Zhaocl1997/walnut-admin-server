@@ -1,12 +1,21 @@
-import { Controller, Body, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Body,
+  UseGuards,
+  Patch,
+  HttpCode,
+  HttpStatus,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
 import { SysUserService } from './user.service';
 import { SysUserDto } from './dto/user.dto';
-import { SysUserEntity } from './entities/user.entity';
 
 import { WalnutListRequestDTO } from '@/common/dto/list.dto';
-import { AppConstLogOperateTitle } from '@/const/decorator/logOperate';
+import {
+  AppConstLogOperateAction,
+  AppConstLogOperateTitle,
+} from '@/const/decorator/logOperate';
 import { WalnutCrudDecorators } from '@/decorators/crud';
 import {
   WalnutIdParamDecorator,
@@ -15,6 +24,10 @@ import {
 import { HasPermission } from '@/decorators/walnut/hasPermission.decorator';
 import { AppConstPermissionUser } from '@/const/permissions/user';
 import { JwtAccessGuard } from '@/modules/auth/guards/jwt/jwt-access.guard';
+import { ApiWalnutOkResponse } from '@/decorators/swagger/response.decorator';
+import { LogOperateDecorator } from '@/decorators/walnut/log.operate.decorator';
+import { HasRole } from '@/decorators/walnut/hasRole.decorator';
+import { AppConstRoles } from '@/const/role';
 
 const {
   CreateDecorator,
@@ -37,7 +50,7 @@ export class SysUserController {
   @CreateDecorator()
   @HasPermission(AppConstPermissionUser.CREATE)
   async create(@Body() payload: SysUserDto) {
-    return await this.userService.createUser(payload)
+    return await this.userService.createUser(payload);
   }
 
   @ReadDecorator()
@@ -68,5 +81,42 @@ export class SysUserController {
   @HasPermission(AppConstPermissionUser.LIST)
   async findAll(@Body() params: WalnutListRequestDTO<SysUserDto>) {
     return await this.userService.findAll(params);
+  }
+
+  @Patch('/password/update')
+  @HttpCode(HttpStatus.OK)
+  @ApiWalnutOkResponse({
+    description: '更新密码',
+    DTO: '',
+  })
+  @LogOperateDecorator({
+    title: AppConstLogOperateTitle.USER,
+    action: AppConstLogOperateAction.UPDATE_PASSWORD,
+  })
+  @HasPermission(AppConstPermissionUser.PASSWORD_UPDATE)
+  @HasRole(AppConstRoles.ADMIN)
+  async updatePassword(@Body() payload: SysUserDto & { newPass: string }) {
+    return await this.userService.updateUserPassword(
+      payload._id,
+      payload.newPass,
+    );
+  }
+
+  @Patch('/password/reset')
+  @HttpCode(HttpStatus.OK)
+  @ApiWalnutOkResponse({
+    description: '重置密码',
+    DTO: '',
+  })
+  @LogOperateDecorator({
+    title: AppConstLogOperateTitle.USER,
+    action: AppConstLogOperateAction.RESET_PASSWORD,
+  })
+  @HasPermission(AppConstPermissionUser.PASSWORD_RESET)
+  @HasRole(AppConstRoles.ADMIN)
+  async resetPassword(@Body() payload: SysUserDto) {
+    return await this.userService.resetUserPasswordToDefault(
+      payload._id,
+    );
   }
 }

@@ -9,7 +9,9 @@ export const AppConstLogOperateAction = {
   IMPORT: 'IMPORT',
   EXPORT: 'EXPORT',
 
-  FORCE_QUIT: 'FORCE_QUIT'
+  FORCE_QUIT: 'FORCE_QUIT',
+  UPDATE_PASSWORD: 'UPDATE_PASSWORD',
+  RESET_PASSWORD: 'RESET_PASSWORD',
 } as const;
 
 export const AppConstLogOperateTitle = {
