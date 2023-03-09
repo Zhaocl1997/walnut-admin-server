@@ -1,6 +1,7 @@
 import { CacheModule, Global, Module } from '@nestjs/common';
 import { CacheConfigService } from './cache.config.service';
 import { AppCacheController } from './cache.controller';
+import { AppCacheCustomService } from './cache.custom';
 import { AppCacheService } from './cache.service';
 
 // TODO isGlobal option not working
@@ -13,7 +14,7 @@ import { AppCacheService } from './cache.service';
     }),
   ],
   controllers: [AppCacheController],
-  providers: [AppCacheService],
-  exports: [AppCacheService],
+  providers: [AppCacheService, AppCacheCustomService],
+  exports: [AppCacheService, AppCacheCustomService],
 })
 export class AppCacheModule {}
