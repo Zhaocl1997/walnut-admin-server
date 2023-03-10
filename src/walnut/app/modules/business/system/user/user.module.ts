@@ -7,6 +7,7 @@ import { SysUserModel, SysUserSchema } from './schema/user.schema';
 import { SysLogOperateModule } from '../logs/operate/log.module';
 import { SysUserRepository } from './user.repository';
 import { AppConstDatabaseConnectionName } from '@/const/db/connectionName';
+import { AppMonitorUserModule } from '@/modules/app/monitor/user/user.module';
 
 @Global()
 @Module({
@@ -16,6 +17,7 @@ import { AppConstDatabaseConnectionName } from '@/const/db/connectionName';
       AppConstDatabaseConnectionName.PRIMARY,
     ),
     SysLogOperateModule,
+    AppMonitorUserModule
   ],
   controllers: [SysUserController],
   providers: [SysUserRepository, SysUserService],

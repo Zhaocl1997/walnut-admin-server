@@ -22,7 +22,7 @@ export class AppMonitorUserService {
     private readonly httpService: HttpService,
     private readonly socketService: SocketService,
     private readonly configService: ConfigService,
-  ) { }
+  ) {}
 
   async initial(req: IWalnutRequest, dto: Partial<AppMonitorUserDTO>) {
     const res = await firstValueFrom(
@@ -89,10 +89,27 @@ export class AppMonitorUserService {
   async forceQuit(id: string) {
     const target = await this.appMonitorUserModel.findOne({ _id: id });
 
-    this.socketService.socket.emit(
-      `force/quit/${target.visitorId}`,
-      target.visitorId,
-    );
+    // user has auth state and user not left
+    // force quit the user with socket
+    if (target.auth && !target.left) {
+      this.socketService.socket.emit(
+        `force/quit/${target.visitorId}`,
+        target.visitorId,
+      );
+    }
+  }
+
+  async forceQuitByUserId(userId: string) {
+    const target = await this.appMonitorUserModel.findOne({ userId });
+
+    // user has auth state and user not left
+    // force quit the user with socket
+    if (target.auth && !target.left) {
+      this.socketService.socket.emit(
+        `force/quit/${target.visitorId}`,
+        target.visitorId,
+      );
+    }
   }
 
   async read(id: string) {
@@ -110,16 +127,22 @@ export class AppMonitorUserService {
   // used for bull task
   // change the auth state based on refresh expire time
   async updateAuthState() {
-    const expireSeconds = parseInt(this.configService.get<string>(
-      'jwt.refresh.expire',
-    ));
+    const expireSeconds = parseInt(
+      this.configService.get<string>('jwt.refresh.expire'),
+    );
 
-    const usersWhoseAuthStillTrue = await this.appMonitorUserModel.find({ auth: true }).select('visitorId authTime')
+    const usersWhoseAuthStillTrue = await this.appMonitorUserModel
+      .find({ auth: true })
+      .select('visitorId authTime');
 
-    const usersNeedToSignout = usersWhoseAuthStillTrue.filter(i => AppDayjs(i.authTime).add(expireSeconds, 'second').isBefore(AppDayjs()))
+    const usersNeedToSignout = usersWhoseAuthStillTrue.filter((i) =>
+      AppDayjs(i.authTime).add(expireSeconds, 'second').isBefore(AppDayjs()),
+    );
 
     if (usersNeedToSignout.length !== 0) {
-      await Promise.all(usersNeedToSignout.map(i => this.signout(i.visitorId)))
+      await Promise.all(
+        usersNeedToSignout.map((i) => this.signout(i.visitorId)),
+      );
     }
   }
 }

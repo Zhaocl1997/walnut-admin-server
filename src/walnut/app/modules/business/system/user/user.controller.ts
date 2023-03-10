@@ -28,6 +28,7 @@ import { ApiWalnutOkResponse } from '@/decorators/swagger/response.decorator';
 import { LogOperateDecorator } from '@/decorators/walnut/log.operate.decorator';
 import { HasRole } from '@/decorators/walnut/hasRole.decorator';
 import { AppConstRoles } from '@/const/role';
+import { ResetPasswordDto, UpdatePasswordDto } from './dto/password.dto';
 
 const {
   CreateDecorator,
@@ -87,7 +88,7 @@ export class SysUserController {
   @HttpCode(HttpStatus.OK)
   @ApiWalnutOkResponse({
     description: '更新密码',
-    DTO: '',
+    DTO: UpdatePasswordDto,
   })
   @LogOperateDecorator({
     title: AppConstLogOperateTitle.USER,
@@ -95,10 +96,10 @@ export class SysUserController {
   })
   @HasPermission(AppConstPermissionUser.PASSWORD_UPDATE)
   @HasRole(AppConstRoles.ADMIN)
-  async updatePassword(@Body() payload: SysUserDto & { newPass: string }) {
+  async updatePassword(@Body() payload: UpdatePasswordDto) {
     return await this.userService.updateUserPassword(
-      payload._id,
-      payload.newPass,
+      payload.userId,
+      payload.newPassword,
     );
   }
 
@@ -106,7 +107,7 @@ export class SysUserController {
   @HttpCode(HttpStatus.OK)
   @ApiWalnutOkResponse({
     description: '重置密码',
-    DTO: '',
+    DTO: ResetPasswordDto,
   })
   @LogOperateDecorator({
     title: AppConstLogOperateTitle.USER,
@@ -114,9 +115,7 @@ export class SysUserController {
   })
   @HasPermission(AppConstPermissionUser.PASSWORD_RESET)
   @HasRole(AppConstRoles.ADMIN)
-  async resetPassword(@Body() payload: SysUserDto) {
-    return await this.userService.resetUserPasswordToDefault(
-      payload._id,
-    );
+  async resetPassword(@Body() payload: ResetPasswordDto) {
+    return await this.userService.resetUserPasswordToDefault(payload.userId);
   }
 }

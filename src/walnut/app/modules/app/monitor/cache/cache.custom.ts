@@ -6,7 +6,7 @@ import { AppCacheService } from './cache.service';
 // do not use cacheService here or there
 @Injectable()
 export class AppCacheCustomService {
-  private readonly cacheService: AppCacheService;
+  constructor(private readonly cacheService: AppCacheService) {}
 
   async getAppSettings() {
     return await this.cacheService.get(AppConstCacheKeys.APP_SETTING);

@@ -16,6 +16,7 @@ import {
 import { RequestEncryption } from '@/utils/vendor/crypto';
 import { ConfigService } from '@nestjs/config';
 import { AppCacheCustomService } from '@/modules/app/monitor/cache/cache.custom';
+import { AppMonitorUserService } from '@/modules/app/monitor/user/user.service';
 
 @Injectable()
 export class SysUserService {
@@ -25,6 +26,7 @@ export class SysUserService {
     private readonly sysUserRepo: SysUserRepository,
     private readonly cacheSerice: AppCacheCustomService,
     private readonly configService: ConfigService,
+    private readonly monitorUserSerivce: AppMonitorUserService,
   ) {}
 
   async findUser(payload: Partial<SysUserDto>) {
@@ -120,9 +122,13 @@ export class SysUserService {
 
     user.password = newPass;
 
+    // trigger the hashed password through save hook
     await user.save();
 
-    return true
+    // force quit the user if user has auth state and current on the page
+    await this.monitorUserSerivce.forceQuitByUserId(userId);
+
+    return true;
   }
 
   /**
@@ -134,9 +140,13 @@ export class SysUserService {
 
     user.password = DEFAULT_PASSWORD;
 
+    // trigger the hashed password through save hook
     await user.save();
 
-    return true
+    // force quit the user if user has auth state and current on the page
+    await this.monitorUserSerivce.forceQuitByUserId(userId);
+
+    return true;
   }
 
   /**

@@ -6,6 +6,6 @@ export const AppConstPermissionUser = {
   DELETE_MANY: 'system:user:deleteMany',
   LIST: 'system:user:list',
 
-  PASSWORD_UPDATE: 'system:user:password:update',
-  PASSWORD_RESET: 'system:user:passowrd:reset'
+  PASSWORD_UPDATE: 'system:user:pass:update',
+  PASSWORD_RESET: 'system:user:pass:reset'
 } as const;
