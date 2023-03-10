@@ -1,5 +1,5 @@
 import { Model } from 'mongoose';
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { AppInjectModel } from '@/database/database.decorator';
 import { hash, compare } from 'bcrypt';
 
@@ -98,13 +98,24 @@ export class SysUserService {
   /**
    * @description compare user password
    */
-  async compareEncryptedUserPassword(payload: string, original: string) {
+  decryptPassword(pass: string): string {
     // local password check password is valid or not
     // decrypt the password and compare
     const key = this.configService.get<string>('crypto.request.key');
     const iv = this.configService.get<string>('crypto.request.iv');
 
-    const decryptedPassword = RequestEncryption.decrypt(payload, key, iv);
+    try {
+      return RequestEncryption.decrypt(pass, key, iv);
+    } catch (error) {
+      throw new InternalServerErrorException()
+    }
+  }
+
+  /**
+   * @description compare user password
+   */
+  async compareEncryptedUserPassword(payload: string, original: string) {
+    const decryptedPassword = this.decryptPassword(payload)
 
     const isPassValid = await compare(decryptedPassword, original);
 
@@ -118,9 +129,18 @@ export class SysUserService {
    * @description update user password, through save hook in user schema
    */
   async updateUserPassword(userId: string, newPass: string) {
+    console.log(newPass, 123);
+    
     const user = await this.getUserByCondition({ _id: userId });
 
-    user.password = newPass;
+    console.log(123, user, newPass);
+    
+    const decryptedPassword = this.decryptPassword(newPass)
+
+    console.log(decryptedPassword, 222);
+    
+
+    user.password = decryptedPassword;
 
     // trigger the hashed password through save hook
     await user.save();
