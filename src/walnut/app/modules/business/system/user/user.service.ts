@@ -15,7 +15,7 @@ import {
 } from '@/exceptions/bussiness/auth';
 import { RequestEncryption } from '@/utils/vendor/crypto';
 import { ConfigService } from '@nestjs/config';
-import { AppCacheCustomService } from '@/modules/app/monitor/cache/cache.custom';
+import { AppCacheAppSettingsService } from '@/modules/app/monitor/cache/services/cache.appSettings';
 import { AppMonitorUserService } from '@/modules/app/monitor/user/user.service';
 
 @Injectable()
@@ -24,7 +24,7 @@ export class SysUserService {
     @AppInjectModel(SysUserModel.name)
     private readonly sysUserModel: Model<SysUserDocument>,
     private readonly sysUserRepo: SysUserRepository,
-    private readonly cacheSerice: AppCacheCustomService,
+    private readonly cacheSerice: AppCacheAppSettingsService,
     private readonly configService: ConfigService,
     private readonly monitorUserSerivce: AppMonitorUserService,
   ) {}

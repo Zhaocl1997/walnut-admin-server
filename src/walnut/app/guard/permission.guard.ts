@@ -13,10 +13,9 @@ import {
   AppConstPermissionMode,
   AppConstPermissionModeType,
 } from '../const/decorator/permissions';
-import { AppCacheService } from '@/modules/app/monitor/cache/cache.service';
 import { AppPermissionService } from '@/modules/shared/permission/permission.service';
 import { AppConstHeaders } from '@/const/app/header';
-import { AppConstCacheType } from '@/const/app/cache';
+import { AppCachePermissionsService } from '@/modules/app/monitor/cache/services/cache.permissions';
 
 @Injectable()
 export class PermissionGuard implements CanActivate {
@@ -24,7 +23,7 @@ export class PermissionGuard implements CanActivate {
 
   constructor(
     private readonly reflector: Reflector,
-    private readonly cacheService: AppCacheService,
+    private readonly cacheService: AppCachePermissionsService,
     @Inject(AppPermissionService)
     private readonly permissionService: AppPermissionService,
   ) {}
@@ -61,9 +60,7 @@ export class PermissionGuard implements CanActivate {
     if (!user) return false;
 
     // get permissions from cache
-    let allPermissions = await this.cacheService.get<string[]>(
-      `P_${user.userId}`,
-    );
+    let allPermissions = await this.cacheService.getPermissions(user.userId);
 
     // if we do not find permission strings in cache
     // just fetch from db again and set it to allPermissions
@@ -75,11 +72,7 @@ export class PermissionGuard implements CanActivate {
       allPermissions = res;
 
       // set permissions into cache
-      this.cacheService.set(`P_${user.userId}`, allPermissions, {
-        ttl: user.exp - user.iat,
-        start: user.iat * 1000,
-        t: AppConstCacheType.AUTH_PERMISSIONS
-      });
+      this.cacheService.setPermissions(user, allPermissions);
     }
 
     // define the flag, default true

@@ -13,9 +13,8 @@ import {
   AppConstRoleModeType,
 } from '@/const/decorator/role';
 import { WalnutExceptionAccessDenied } from '@/exceptions/bussiness/auth';
-import { AppCacheService } from '@/modules/app/monitor/cache/cache.service';
 import { SysUserService } from '@/modules/business/system/user/user.service';
-import { AppConstCacheType } from '@/const/app/cache';
+import { AppCacheRolesService } from '@/modules/app/monitor/cache/services/cache.roles';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -23,7 +22,7 @@ export class RolesGuard implements CanActivate {
 
   constructor(
     private readonly reflector: Reflector,
-    private readonly cacheService: AppCacheService,
+    private readonly cacheService: AppCacheRolesService,
     // TODO make it not global
     @Inject(SysUserService) private readonly userService: SysUserService,
   ) {}
@@ -58,9 +57,7 @@ export class RolesGuard implements CanActivate {
     if (!user) return false;
 
     // get role names from cache
-    let allRoleNames = await this.cacheService.get<string[]>(
-      `R_${user.userId}`,
-    );
+    let allRoleNames = await this.cacheService.getRoles(user.userId);
 
     // if we do not find role names in cache
     // just fetch from db again and set it to allRoleNames
@@ -72,11 +69,7 @@ export class RolesGuard implements CanActivate {
       allRoleNames = res;
 
       // set roleNames into cache
-      this.cacheService.set(`R_${user.userId}`, allRoleNames, {
-        ttl: user.exp - user.iat,
-        start: user.iat * 1000,
-        t: AppConstCacheType.AUTH_ROLE_NAMES,
-      });
+      this.cacheService.setRoles(user, allRoleNames);
     }
 
     // define the flag, default true

@@ -1,11 +1,9 @@
 import { AppConstCacheKeys, AppConstSettingKeys } from '@/const/app/cache';
 import { Injectable } from '@nestjs/common';
-import { AppCacheService } from './cache.service';
+import { AppCacheService } from '../cache.service';
 
-// TODO central control the cache
-// do not use cacheService here or there
 @Injectable()
-export class AppCacheCustomService {
+export class AppCacheAppSettingsService {
   constructor(private readonly cacheService: AppCacheService) {}
 
   async getAppSettings() {
