@@ -91,7 +91,7 @@ export class AppMonitorUserService {
 
     // user has auth state and user not left
     // force quit the user with socket
-    if (target.auth && !target.left) {
+    if (target && target.auth && !target.left) {
       this.socketService.socket.emit(
         `force/quit/${target.visitorId}`,
         target.visitorId,
@@ -104,7 +104,7 @@ export class AppMonitorUserService {
 
     // user has auth state and user not left
     // force quit the user with socket
-    if (target.auth && !target.left) {
+    if (target && target.auth && !target.left) {
       this.socketService.socket.emit(
         `force/quit/${target.visitorId}`,
         target.visitorId,

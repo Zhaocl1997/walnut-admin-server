@@ -129,16 +129,9 @@ export class SysUserService {
    * @description update user password, through save hook in user schema
    */
   async updateUserPassword(userId: string, newPass: string) {
-    console.log(newPass, 123);
-    
     const user = await this.getUserByCondition({ _id: userId });
 
-    console.log(123, user, newPass);
-    
-    const decryptedPassword = this.decryptPassword(newPass)
-
-    console.log(decryptedPassword, 222);
-    
+    const decryptedPassword = this.decryptPassword(newPass)   
 
     user.password = decryptedPassword;
 
