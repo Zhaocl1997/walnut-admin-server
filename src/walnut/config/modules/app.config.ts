@@ -9,7 +9,7 @@ export default registerAs('app', () => ({
   },
 
   throttle: {
-    ttl: parseInt(process.env.APP_THROTTLE_TTL),
+    ttl: parseInt(process.env.APP_THROTTLE_TTL) * 1000,
     limit: parseInt(process.env.APP_THROTTLE_LIMIT),
   },
 
@@ -18,7 +18,7 @@ export default registerAs('app', () => ({
   },
 
   cache: {
-    ttl: parseInt(process.env.APP_CACHE_TTL),
+    ttl: parseInt(process.env.APP_CACHE_TTL) * 1000,
     max: parseInt(process.env.APP_CACHE_MAX),
   },
 

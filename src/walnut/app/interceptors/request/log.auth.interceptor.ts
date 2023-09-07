@@ -61,7 +61,7 @@ export class LogAuthInterceptor implements NestInterceptor {
         userName: request.user.userName,
 
         success,
-        msg: translatedMsg,
+        msg: translatedMsg as string,
 
         type: payloadAuthType,
       });

@@ -16,7 +16,7 @@ export class SysLangService {
     private readonly SysLangModel: Model<SysLangDocument>,
     private readonly SysLangRepo: SysLangRepository,
     @Inject(forwardRef(() => SysLocaleService))
-    private readonly SysLocaleService: SysLocaleService,
+    private readonly sysLocaleService: SysLocaleService,
   ) {}
 
   // base CRUD
@@ -36,7 +36,7 @@ export class SysLangService {
     const deletedLang = await this.SysLangRepo.delete(id);
 
     // delete all locales with deleted language id
-    await this.SysLocaleService.deleteByLangId(deletedLang._id);
+    await this.sysLocaleService.deleteByLangId(deletedLang._id);
 
     return deletedLang;
   }

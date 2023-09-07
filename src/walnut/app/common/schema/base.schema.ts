@@ -18,7 +18,7 @@ export const createWalnutSchema = <T extends WalnutAbstractModel>(
   });
 
   // update hook
-  schema.pre('update', function () {
+  schema.pre('updateOne', function () {
     this.where({ deleted: false });
   });
 

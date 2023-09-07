@@ -29,7 +29,7 @@ export class AuthEmailController {
 
   @Post('send')
   @HttpCode(HttpStatus.OK)
-  @Throttle(2, 60)
+  @Throttle({ default: { limit: 2, ttl: 60000 } })
   @FunctionalCheck(AppConstSettingKeys.VERIFY_EMIAL_SEND)
   async sendAuthEmail(
     @Request() req: IWalnutRequest,

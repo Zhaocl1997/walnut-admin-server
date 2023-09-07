@@ -30,10 +30,6 @@ export class MongooseConfigService implements MongooseOptionsFactory {
         password: this.configService.get<string>('database.pass'),
       },
 
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      // useFindAndModify: false,
-      // useCreateIndex: true,
       autoIndex: true,
 
       connectionFactory: (connection) => {

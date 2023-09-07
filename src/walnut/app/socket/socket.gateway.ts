@@ -13,7 +13,9 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
+import { instrument } from '@socket.io/admin-ui';
 import { SocketService } from './socket.service';
+import { ConfigService } from '@nestjs/config';
 
 // TODO extract to config
 @WebSocketGateway({
@@ -28,13 +30,21 @@ export class SocketGateway
     private readonly socketService: SocketService,
     private readonly monitorUserService: AppMonitorUserService,
     private readonly cacheService: AppCacheService,
+    private readonly configService: ConfigService,
   ) {}
 
   @WebSocketServer()
   private readonly server: Server;
 
   afterInit(client: Server) {
-    this.logger.debug('Websocket Server Started, Listening on Port: 5173');
+    // TODO typeError
+    // instrument(this.server, {
+    //   auth: false,
+    //   mode: 'development',
+    //   // namespaceName: 'walnut-namespace',
+    // });
+
+    this.logger.debug(`Websocket Server Started, Listening on Port: ${this.configService.get<number>('socket.port')}`);
     this.socketService.socket = client;
   }
 
@@ -103,7 +113,7 @@ export class SocketGateway
   }
 
   @SubscribeMessage('hello')
-  onHello(@MessageBody() data: string) {
+  onHello(@MessageBody() data: string) {   
     this.logger.debug(data);
     this.server.emit('onMessage', { msg: 'Hello world', content: data });
   }

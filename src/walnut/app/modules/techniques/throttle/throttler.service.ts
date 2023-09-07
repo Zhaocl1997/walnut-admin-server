@@ -14,9 +14,11 @@ export class ThrottlerConfigService implements ThrottlerOptionsFactory {
   createThrottlerOptions(): ThrottlerModuleOptions {
     this.logger.debug('Initiating throttler module...');
 
-    return {
-      ttl: this.configService.get<number>('app.throttle.ttl'),
-      limit: this.configService.get<number>('app.throttle.limit'),
-    };
+    return [
+      {
+        ttl: this.configService.get<number>('app.throttle.ttl'),
+        limit: this.configService.get<number>('app.throttle.limit'),
+      },
+    ];
   }
 }

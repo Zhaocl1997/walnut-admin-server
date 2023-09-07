@@ -1,11 +1,7 @@
-import {
-  CacheModuleOptions,
-  CacheOptionsFactory,
-  Injectable,
-  Logger,
-} from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
+import { CacheModuleOptions, CacheOptionsFactory } from '@nestjs/cache-manager';
 import { ConfigService } from '@nestjs/config';
-import  * as redisStore from 'cache-manager-redis-store';
+import { redisStore } from 'cache-manager-redis-yet';
 import type { RedisClientOptions } from 'redis';
 
 @Injectable()
@@ -15,21 +11,20 @@ export class CacheConfigService implements CacheOptionsFactory {
   constructor(private readonly configService: ConfigService) {}
 
   createCacheOptions(): CacheModuleOptions<RedisClientOptions> {
-    const redisHost = this.configService.get('app.redis.host');
-    const redisPort = this.configService.get('app.redis.port');
-    const redisPass = this.configService.get('app.redis.pass');
-
-    const redisUrl = `redis://default:${redisPass}@${redisHost}:${redisPort}`;
-
     this.logger.debug(`Connecting to redis server...`);
 
     return {
       isGlobal: true,
-      ttl: this.configService.get<number>('app.cache.ttl'),
-      max: this.configService.get<number>('app.cache.max'),
-
-      store: redisStore,
-      url: redisUrl,
+      store: async () => {
+        return await redisStore({
+          socket: {
+            host: this.configService.get('app.redis.host'),
+            port: this.configService.get('app.redis.port'),
+          },
+          password: this.configService.get('app.redis.pass'),
+          ttl: this.configService.get<number>('app.cache.ttl'),
+        });
+      },
     };
   }
 }
