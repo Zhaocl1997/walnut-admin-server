@@ -2,6 +2,7 @@ import { Transform } from 'class-transformer';
 import { castArray, isArray, isNil, map, trim } from 'lodash';
 
 import { AppDayjs } from '@/utils/dayjs';
+import { isEmail, isPhoneNumber } from 'class-validator';
 
 /**
  * @description trim spaces from start and end, replace multiple spaces with one.
@@ -246,5 +247,50 @@ export function TransformToBytes(): PropertyDecorator {
     }
 
     return `${value} bytes`;
+  });
+}
+
+export function TransformEmail(): PropertyDecorator {
+  return Transform(({ value }) => {
+    if (!value) {
+      return;
+    }
+
+    return value.replace(
+      /^(.)(.*)(.@.*)$/,
+      (_, a, b, c) => a + b.replace(/./g, '*') + c,
+    );
+  });
+}
+
+export function TransformPhoneNumber(): PropertyDecorator {
+  return Transform(({ value }) => {
+    if (!value) {
+      return;
+    }
+
+    return value.replace(/^(\d{3})\d{4}(\d{4})$/, '$1****$2');
+  });
+}
+
+export function TransformUsername(): PropertyDecorator {
+  return Transform(({ value }) => {
+    if (!value) {
+      return;
+    }
+
+    if (isEmail(value)) {
+      return value.replace(
+        /^(.)(.*)(.@.*)$/,
+        (_, a, b, c) => a + b.replace(/./g, '*') + c,
+      );
+    }
+
+    // TODO second param
+    if (isPhoneNumber(value, 'CN')) {
+      return value.replace(/^(\d{3})\d{4}(\d{4})$/, '$1****$2');
+    }
+
+    return value;
   });
 }

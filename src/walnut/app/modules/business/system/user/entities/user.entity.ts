@@ -2,7 +2,7 @@ import { Exclude } from 'class-transformer';
 import { Schema } from 'mongoose';
 import { WalnutAbstractEntity } from '@/common/entity/base.entity';
 
-import { TransformObjectIdToStringId } from '@/decorators/transform.decorator';
+import { TransformEmail, TransformObjectIdToStringId, TransformPhoneNumber, TransformUsername } from '@/decorators/transform.decorator';
 
 export class SysUserEntity extends WalnutAbstractEntity {
   constructor(partial: Partial<SysUserEntity>) {
@@ -10,6 +10,7 @@ export class SysUserEntity extends WalnutAbstractEntity {
     Object.assign(this, partial);
   }
 
+  @TransformUsername()
   userName: string;
 
   nickName: string;
@@ -20,8 +21,10 @@ export class SysUserEntity extends WalnutAbstractEntity {
 
   avatar: string;
 
+  @TransformPhoneNumber()
   phoneNumber: string;
 
+  @TransformEmail()
   emailAddress: string;
 
   description: string;
