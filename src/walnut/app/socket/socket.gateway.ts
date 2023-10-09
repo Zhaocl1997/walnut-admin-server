@@ -44,10 +44,56 @@ export class SocketGateway
     //   // namespaceName: 'walnut-namespace',
     // });
 
-    this.logger.debug(`Websocket Server Started, Listening on Port: ${this.configService.get<number>('socket.port')}`);
+    this.logger.debug(
+      `Websocket Server Started, Listening on Port: ${this.configService.get<number>(
+        'socket.port',
+      )}`,
+    );
     this.socketService.socket = client;
   }
 
+  // connection
+  async handleConnection(client: Socket, ...args: any[]) {
+    this.logger.debug(`Client connected: ${client.id}`);
+
+    // use fingerprint to find in caches
+    const fingerprint = client.handshake.query['fingerprint'] as string;
+
+    const cache = await this.cacheService.get<[string, string][]>(
+      AppConstCacheKeys.SOCKET_POOL,
+    );
+
+    // if cache exists, it means thie user has connected before
+    if (cache && cache.length !== 0) {
+      const index = cache.findIndex((i) => i[0] === fingerprint);
+
+      if (index === -1) {
+        // do not find, push new item in cache
+        cache.push([fingerprint, client.id]);
+      } else {
+        // otherwise just change the cache item
+        cache[index] = [fingerprint, client.id];
+      }
+
+      // set into cache again
+      await this.cacheService.set(AppConstCacheKeys.SOCKET_POOL, cache, {
+        t: AppConstCacheType.BUILT_IN,
+        ttl: 0,
+      });
+    } else {
+      // first initial
+      await this.cacheService.set(
+        AppConstCacheKeys.SOCKET_POOL,
+        [[fingerprint, client.id]],
+        {
+          t: AppConstCacheType.BUILT_IN,
+          ttl: 0,
+        },
+      );
+    }
+  }
+
+  // disconnection
   async handleDisconnect(client: Socket) {
     this.logger.debug(`Client disconnected: ${client.id}`);
 
@@ -78,42 +124,8 @@ export class SocketGateway
     });
   }
 
-  async handleConnection(client: Socket, ...args: any[]) {
-    this.logger.debug(`Client connected: ${client.id}`);
-
-    const fingerprint = client.handshake.query['fingerprint'] as string;
-
-    const cache = await this.cacheService.get<[string, string][]>(
-      AppConstCacheKeys.SOCKET_POOL,
-    );
-
-    if (cache && cache.length !== 0) {
-      const index = cache.findIndex((i) => i[0] === fingerprint);
-
-      if (index === -1) {
-        cache.push([fingerprint, client.id]);
-      } else {
-        cache[index] = [fingerprint, client.id];
-      }
-
-      await this.cacheService.set(AppConstCacheKeys.SOCKET_POOL, cache, {
-        t: AppConstCacheType.BUILT_IN,
-        ttl: 0,
-      });
-    } else {
-      await this.cacheService.set(
-        AppConstCacheKeys.SOCKET_POOL,
-        [[fingerprint, client.id]],
-        {
-          t: AppConstCacheType.BUILT_IN,
-          ttl: 0,
-        },
-      );
-    }
-  }
-
   @SubscribeMessage('hello')
-  onHello(@MessageBody() data: string) {   
+  onHello(@MessageBody() data: string) {
     this.logger.debug(data);
     this.server.emit('onMessage', { msg: 'Hello world', content: data });
   }

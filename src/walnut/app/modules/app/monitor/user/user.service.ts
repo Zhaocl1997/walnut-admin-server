@@ -25,20 +25,15 @@ export class AppMonitorUserService {
   ) {}
 
   async initial(req: IWalnutRequest, dto: Partial<AppMonitorUserDTO>) {
-    const res = await firstValueFrom(
-      this.httpService.get(`https://ip.useragentinfo.com/json?ip=${dto.ip}`),
-    );
-
-    if (res.status === 200) {
       await this.appMonitorUserModel.findOneAndUpdate(
         { visitorId: dto.visitorId },
         {
-          ip: res.data.ip,
-          country: res.data.country,
-          province: res.data.province,
-          city: res.data.city,
-          area: res.data.area,
-          isp: res.data.isp,
+          ip: dto.ip,
+          country: dto.country,
+          province: dto.province,
+          city: dto.city,
+          area: dto.area,
+          isp: dto.isp,
           userAgent: req.userAgent.ua,
           netType: dto.netType,
           platform: dto.platform,
@@ -52,7 +47,6 @@ export class AppMonitorUserService {
         },
         { upsert: true },
       );
-    }
   }
 
   async socketHandler(dto: Partial<AppMonitorUserDTO>) {

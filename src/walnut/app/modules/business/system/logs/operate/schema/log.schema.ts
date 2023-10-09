@@ -24,6 +24,7 @@ export class SysLogOperateModel extends WalnutAbstractModel {
   title: string;
 
   @Prop({
+    type: String,
     enum: [...Object.values(AppConstLogOperateAction)],
     default: AppConstLogOperateAction.OTHER,
   })
